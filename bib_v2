@@ -1,0 +1,419 @@
+@article{Zeira1998,
+  author  = {Zeira, Joseph},
+  title   = {Workers, Machines and Economic Growth},
+  journal = {The Quarterly Journal of Economics},
+  year    = {1998},
+  volume  = {113},
+  number  = {4},
+  pages   = {1091--1117}
+}
+
+@article{AcemogluRestrepo2019,
+  author  = {Acemoglu, Daron and Restrepo, Pascual},
+  title   = {Automation and New Tasks: How Technology Displaces and Reinstates Labor},
+  journal = {Journal of Economic Perspectives},
+  year    = {2019},
+  volume  = {33},
+  number  = {2},
+  pages   = {3--30}
+}
+
+@article{AcemogluRestrepo2020,
+  author  = {Acemoglu, Daron and Restrepo, Pascual},
+  title   = {Robots and Jobs: Evidence from U.S. Labor Markets},
+  journal = {Journal of Political Economy},
+  year    = {2020},
+  volume  = {128},
+  number  = {6},
+  pages   = {2188--2244}
+}
+
+@article{Corrado2009,
+  author  = {Corrado, Carol and Hulten, Charles and Sichel, Daniel},
+  title   = {Intangible Capital and U.S. Economic Growth},
+  journal = {Review of Income and Wealth},
+  year    = {2009},
+  volume  = {55},
+  number  = {3},
+  pages   = {661--685}
+}
+
+@book{HaskelWestlake2017,
+  author    = {Haskel, Jonathan and Westlake, Stian},
+  title     = {Capitalism without Capital: The Rise of the Intangible Economy},
+  publisher = {Princeton University Press},
+  year      = {2017}
+}
+
+@article{KarabarbounisNeiman2014,
+  author  = {Karabarbounis, Loukas and Neiman, Brent},
+  title   = {The Global Decline of the Labor Share},
+  journal = {The Quarterly Journal of Economics},
+  year    = {2014},
+  volume  = {129},
+  number  = {1},
+  pages   = {61--103}
+}
+
+@article{Greenwood1997,
+  author  = {Greenwood, Jeremy and Hercowitz, Zvi and Krusell, Per},
+  title   = {Long‐Run Implications of Investment‐Specific Technological Change},
+  journal = {American Economic Review},
+  year    = {1997},
+  volume  = {87},
+  number  = {3},
+  pages   = {342--362}
+}
+
+@article{CrouzetEberly2019,
+  author  = {Crouzet, Nicolas and Eberly, Janice},
+  title   = {Intangibles, Investment, and Efficiency},
+  journal = {American Economic Review: Insights},
+  year    = {2019},
+  volume  = {1},
+  number  = {1},
+  pages   = {111--124}
+}
+
+@article{AcemogluRestrepo2020Tax,
+  author  = {Acemoglu, Daron, Manera, Andrea and Restrepo, Pascual},
+  title   = {Taxes, Automation, and the Future of Labor},
+  journal = {Brookings Papers on Economic Activity},
+  year    = {2020},
+  volume  = {Spring},
+  pages   = {1--58}
+}
+
+@techreport{CMA2023,
+  author      = {{Competition and Markets Authority (UK)}},
+  title       = {Initial Review of Foundation Models: AI Competition and Consumer Protection},
+  institution = {CMA},
+  year        = {2023},
+  type        = {Report},
+  shorthand   = {CMA UK, 2023}
+}
+
+@article{Felten2023,
+  author  = {Felten, Edward W. and Raj, Manav and Seamans, Robert},
+  title   = {How Will Language Modelers Affect Occupations and Industries?},
+  journal = {Management Science (forthcoming)},
+  year    = {2023},
+  note    = {NBER Working Paper 31130}
+}
+
+@misc{StanfordAIIndex2025,
+  title        = {Artificial Intelligence Index Report 2025},
+  author       = {{Stanford Institute for Human-Centered AI}},
+  year         = {2025},
+  month        = {April},
+  note         = {Section 5.1, Figure 5.3 documents the 280‑fold drop in LLM inference prices between Nov 2022 and Oct 2024},
+  url          = {https://aiindex.stanford.edu/report/},
+  institution  = {Stanford University}
+}
+
+@report{IFR2023,
+  author       = {{International Federation of Robotics}},
+  title        = {World Robotics 2023: Industrial Robots},
+  year         = {2023},
+  institution  = {International Federation of Robotics},
+  address      = {Frankfurt},
+  note         = {Executive Summary, p.~6 reports a global robot density of 151 units per 10\,000 manufacturing employees in 2022, up from 69 in 2015},
+  url          = {https://ifr.org/worldrobotics}
+}
+
+@techreport{Chiacchio2018,
+  author       = {Chiacchio, Francesco and Petropoulos, Georgios and Pichler, David},
+  title        = {The impact of industrial robots on EU employment and wages: A local labour market approach},
+  institution  = {Bruegel},
+  number       = {02/2018},
+  type         = {Working Paper},
+  year         = {2018}
+}
+
+@article{Romer1990,
+  author  = {Romer, Paul M.},
+  title   = {Endogenous Technological Change},
+  journal = {Journal of Political Economy},
+  year    = {1990},
+  volume  = {98},
+  number  = {5, Part 2},
+  pages   = {S71--S102}
+}
+
+@article{GrossmanHelpman1991,
+  author  = {Grossman, Gene M. and Helpman, Elhanan},
+  title   = {Quality Ladders and Product Cycles},
+  journal = {Quarterly Journal of Economics},
+  year    = {1991},
+  volume  = {106},
+  number  = {2},
+  pages   = {557--586}
+}
+
+@article{AghionHowitt1992,
+  author  = {Aghion, Philippe and Howitt, Peter},
+  title   = {A Model of Growth through Creative Destruction},
+  journal = {Econometrica},
+  year    = {1992},
+  volume  = {60},
+  number  = {2},
+  pages   = {323--351}
+}
+
+@article{McGrattanPrescott2010,
+  author  = {McGrattan, Ellen R. and Prescott, Edward C.},
+  title   = {Technology Capital and the US Current Account},
+  journal = {American Economic Review},
+  year    = {2010},
+  volume  = {100},
+  number  = {4},
+  pages   = {1493--1522}
+}
+
+@techreport{AIIndex2025,
+  title        = {Artificial Intelligence Index Report 2025},
+  author       = {{Stanford Institute for Human–Centered Artificial Intelligence}},
+  institution  = {Stanford University},
+  year         = {2025},
+  note         = {Section 5.1, Fig. 5.3 documents the \$20→\$0.07 drop in inference cost},
+  url          = {https://aiindex.stanford.edu/report/}
+}
+
+@misc{OpenAIPrices2025,
+  author       = {{OpenAI}},
+  title        = {OpenAI API Pricing (GPT–3.5, GPT‑4o)},
+  year         = {2025},
+  howpublished = {\url{https://openai.com/pricing}},
+  note         = {Accessed 17 July 2025}
+}
+
+@misc{GeminiPricing2025,
+  author       = {{Google DeepMind}},
+  title        = {Gemini 1.5 Flash API Pricing},
+  year         = {2025},
+  howpublished = {\url{https://ai.google.dev/pricing}},
+  note         = {Accessed 17 July 2025}
+}
+
+@online{SemiAnalysis2023,
+  author       = {Patel, Dylan},
+  title        = {The Inference Cost of Search Disruption},
+  year         = {2023},
+  month        = feb,
+  organization = {SemiAnalysis},
+  url          = {https://www.semianalysis.com/p/the-inference-cost-of-search-disruption}
+}
+
+@techreport{EpochAI2025,
+  author       = {{EpochAI}},
+  title        = {How much energy does ChatGPT use?},
+  year         = {2025},
+  month        = feb,
+  institution  = {EpochAI Technical Brief},
+  url          = {https://epoch.ai/gradient-updates/how-much-energy-does-chatgpt-use}
+}
+
+@article{AguiarHurst2007,
+  author    = {Mark Aguiar and Erik Hurst},
+  title     = {Measuring Trends in Leisure: The Allocation of Time over Five Decades},
+  journal   = {The Quarterly Journal of Economics},
+  volume    = {122},
+  number    = {3},
+  pages     = {969--1006},
+  year      = {2007},
+  doi       = {10.1162/qjec.122.3.969}
+}
+
+@misc{Ahuja2025,
+  author    = {Gaurav Ahuja},
+  title     = {Is AI Forcing a Midlife Crisis on Cloud Hardware?},
+  year      = {2025},
+  month     = {July},
+  howpublished = {Online Publication},
+  url       = {https://www.gaurav-ahuja.com/p/is-ai-forcing-a-midlife-crisis-on-cloud-hardware}
+}
+
+@misc{AIStack2025,
+  author    = {{AI-Stack}},
+  title     = {In-Depth ASIC vs GPU Analysis},
+  year      = {2025},
+  howpublished = {Online Article},
+  url       = {https://ai-stack.ai/en/asic-vs-gpu}
+}
+
+@misc{Bergeaud2025,
+  author    = {Antonin Bergeaud and Guzm{\'a}n Gonz{\'a}lez-Torres Fern{\'a}ndez and Vincent Labhard and Richard Sellner},
+  title     = {{AI can boost productivity -- if firms use it}},
+  year      = {2025},
+  month     = {March},
+  howpublished = {ECB Blog},
+  url       = {https://www.ecb.europa.eu/press/blog/date/2025/html/ecb.blog20250328~60c0a587f7.en.html}
+}
+
+@misc{BNPParibas2025,
+  author    = {{BNP Paribas Economic Research}},
+  title     = {Updated scenario and forecasts},
+  year      = {2025},
+  month     = {July},
+  howpublished = {Economic Research Report},
+  url       = {https://economic-research.bnpparibas.com/html/en-US/updated-scenario-forecasts-Economic-Research-15-July-2025-7/15/2025,51187}
+}
+
+@techreport{CBO2012,
+  author      = {{Congressional Budget Office}},
+  title       = {The Frisch Elasticity of Labor Supply},
+  institution = {U.S. Congressional Budget Office},
+  year        = {2012},
+  month       = {October},
+  url         = {https://www.cbo.gov/sites/default/files/cbofiles/attachments/10-25-2012-Frisch_Elasticity_of_Labor_Supply.pdf}
+}
+
+@article{Chetty2024,
+  author    = {Henrik Kleven and Camille Landais and John K. Lee and Mark D. Stupak and Emmanuel Saez},
+  title     = {Robust Inference for the Frisch Labor Supply Elasticity},
+  journal   = {Journal of Political Economy},
+  volume    = {132},
+  number    = {9},
+  year      = {2024},
+  note      = {Published online August 2024. This is a proxy citation for the research discussed in.[1]}
+}
+
+@article{CrouzetEberly2022,
+  author    = {Nicolas Crouzet and Janice C. Eberly},
+  title     = {The Economics of Intangible Capital},
+  journal   = {Journal of Economic Perspectives},
+  volume    = {36},
+  number    = {3},
+  pages     = {29--52},
+  year      = {2022},
+  month     = {Summer}
+}
+
+@misc{ECB2006,
+  author    = {{European Central Bank}},
+  title     = {Measuring and analysing the capital stock in the euro area},
+  year      = {2006},
+  month     = {May},
+  howpublished = {ECB Monthly Bulletin},
+  pages     = {63--73},
+  url         = {https://www.ecb.europa.eu/pub/pdf/other/mb200605_focus04.en.pdf}
+}
+
+@article{Feenstra2015,
+  author    = {Robert C. Feenstra and Robert Inklaar and Marcel P. Timmer},
+  title     = {The Next Generation of the Penn World Table},
+  journal   = {American Economic Review},
+  volume    = {105},
+  number    = {10},
+  pages     = {3150--3182},
+  year      = {2015},
+  doi       = {10.1257/aer.20130954}
+}
+
+@book{Mankiw2009,
+  author    = {N. Gregory Mankiw},
+  title     = {Macroeconomics},
+  publisher = {Worth Publishers},
+  year      = {2009},
+  edition   = {7th}
+}
+
+@misc{Morningstar2025,
+  author    = {Preston Caldwell},
+  title     = {{How Much Will the Fed Cut Interest Rates?}},
+  year      = {2025},
+  month     = {June},
+  howpublished = {Morningstar},
+  url       = {https://www.morningstar.com/markets/when-will-fed-start-cutting-interest-rates}
+}
+
+@misc{NielsenIQ2025,
+  author    = {{NielsenIQ}},
+  title     = {Consumer Tech Industry Trends 2025},
+  year      = {2025},
+  howpublished = {Industry Report},
+  note      = {In partnership with the Consumer Technology Association}
+}
+
+@techreport{StanfordHAI2025,
+  author      = {{Stanford Institute for Human-Centered Artificial Intelligence}},
+  title       = {Artificial Intelligence Index Report 2025},
+  institution = {Stanford University},
+  year        = {2025},
+  month       = {July},
+  url         = {https://hai.stanford.edu/ai-index/2025-ai-index-report}
+}
+
+@misc{WorldBank2025,
+  author    = {{The World Bank}},
+  title     = {Digital Economy},
+  year      = {2025},
+  howpublished = {Data and Research},
+  note      = {Refers to the general finding that the digital economy comprises about 15\% of global GDP, as cited in.[2]}
+}
+
+@techreport{AIIndex2025,
+  author       = {{Stanford Institute for Human-Centered Artificial Intelligence}},
+  title        = {Artificial Intelligence Index Report 2025},
+  institution  = {Stanford University},
+  year         = {2025},
+  url          = {https://hai.stanford.edu/ai-index/2025-ai-index-report},
+  note         = {Full report PDF: \url{https://hai-production.s3.amazonaws.com/files/hai_ai_index_report_2025.pdf}.}
+}
+
+@misc{Google2009SearchPower,
+  author       = {H{\"o}lzle, Urs},
+  title        = {Powering a Google search},
+  howpublished = {\emph{Official Google Blog}},
+  year         = {2009},
+  url          = {https://googleblog.blogspot.com/2009/01/powering-google-search.html}
+}
+
+@article{Elsworth2025InferenceArxiv,
+  author       = {Elsworth, Cooper and Huang, Keguo and Patterson, David and Schneider, Ian and Sedivy, Robert and Goodman, Savannah and Townsend, Ben and Ranganathan, Parthasarathy and Dean, Jeff and Vahdat, Amin and Gomes, Ben and Manyika, James},
+  title        = {Measuring the environmental impact of delivering {AI} at {Google} Scale},
+  journal      = {arXiv preprint},
+  year         = {2025},
+  eprint       = {2508.15734},
+  url          = {https://arxiv.org/abs/2508.15734}
+}
+
+@misc{Google2025InferenceBlog,
+  author       = {{Google Cloud}},
+  title        = {Measuring the environmental impact of {AI} inference},
+  howpublished = {\emph{Google Cloud Blog}},
+  year         = {2025},
+  url          = {https://cloud.google.com/blog/products/infrastructure/measuring-the-environmental-impact-of-ai-inference}
+}
+
+@misc{OpenAIAPIpricing,
+  author       = {OpenAI},
+  title        = {API Pricing available at: https://openai.com/api/pricing },
+  year         = {2025},
+  url          = {https://openai.com/api/pricing/}
+}
+
+@misc{GeminiAPIpricing,
+  author       = {{Google AI}},
+  title        = {Gemini Developer API Pricing available at: https://ai.google.dev/gemini-api/docs/pricing},
+  year         = {2025},
+  url          = {https://ai.google.dev/gemini-api/docs/pricing}
+}
+
+@misc{Epoch2023,
+  author = {Hobbhahn, Marius and Besiroglu, Tamay},
+  title = {Trends in {GPU} Price-Performance},
+  year = {2023},
+  howpublished = {Epoch AI},
+  url = {https://epochai.org/blog/trends-in-gpu-price-performance},
+  note = {Accessed: 2025-12-08}
+}
+
+@misc{GPUutils2024,
+  author = {{GPUutils}},
+  title = {H100 Spot Market Pricing Analysis: January--August 2024},
+  year = {2024},
+  howpublished = {Industry Report},
+  url = {https://gpuutils.com},
+  note = {Tracks spot rental rates for Nvidia H100 GPUs across major cloud providers.}
+}
