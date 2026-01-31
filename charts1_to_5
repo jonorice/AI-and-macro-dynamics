@@ -237,19 +237,28 @@ def calibrate_theta_psi(
 # Plot styling helpers
 # -----------------------------
 
-DASH = (0, (6, 3))  # clear dash pattern for PE lines
+DASH = (0, (6, 3))  # clear dash pattern for PE lines (used in fig4/fig5)
+MARKER_EVERY = 4     # place a PE marker every N quarters
 
 
-def plot_ge_pe(ax, x, y_ge, y_pe, label_ge="GE", label_pe="PE"):
+def plot_ge_pe(ax, x, y_ge, y_pe, label_ge="GE", label_pe="PE",
+               use_markers: bool = False):
     """
-    Plot GE (solid) and PE (dashed) so the dashed PE line remains visible even when series coincide.
+    Plot GE (solid) and PE so the PE series remains visible even when the two coincide.
 
-    Implementation choice for Reviewer 1
-    - GE is slightly transparent and placed below
-    - PE is black dashed with higher z-order
+    When use_markers=True the PE series is drawn with circle markers (no connecting line)
+    so it is clearly distinguishable from the solid GE line even when the paths overlap.
+    When use_markers=False the original dashed-line style is used (fig4/fig5).
     """
     ax.plot(x, y_ge, "-", linewidth=2.0, alpha=0.80, label=label_ge, zorder=2)
-    ax.plot(x, y_pe, linestyle=DASH, color="black", linewidth=2.0, label=label_pe, zorder=3)
+    if use_markers:
+        ax.plot(x, y_pe, linestyle="none", marker="o", markersize=4.0,
+                markerfacecolor="none", markeredgecolor="black",
+                markeredgewidth=1.2, markevery=MARKER_EVERY,
+                label=label_pe, zorder=3)
+    else:
+        ax.plot(x, y_pe, linestyle=DASH, color="black", linewidth=2.0,
+                label=label_pe, zorder=3)
 
 
 # -----------------------------
@@ -282,7 +291,7 @@ def make_fig1(outdir: Path, formats: Iterable[str], p: Params) -> None:
 
     # Panel (a)
     ax = axes[0]
-    plot_ge_pe(ax, t, m_ge, m_pe)
+    plot_ge_pe(ax, t, m_ge, m_pe, use_markers=True)
     ax.axhline(0.0, linestyle="--", linewidth=1.0, color="black")
     ax.axhline(0.5, linestyle=":", linewidth=1.0, color="grey")
     ax.axvline(half_M, linestyle=":", linewidth=1.0, color="grey")
@@ -296,7 +305,7 @@ def make_fig1(outdir: Path, formats: Iterable[str], p: Params) -> None:
 
     # Panel (b)
     ax = axes[1]
-    plot_ge_pe(ax, t, k_ge, k_pe)
+    plot_ge_pe(ax, t, k_ge, k_pe, use_markers=True)
     ax.axhline(0.0, linestyle="--", linewidth=1.0, color="black")
     ax.axhline(0.5, linestyle=":", linewidth=1.0, color="grey")
     ax.axvline(half_K, linestyle=":", linewidth=1.0, color="grey")
@@ -347,7 +356,7 @@ def make_fig2(
 
     fig, ax = plt.subplots(figsize=(7.5, 4.2))
 
-    plot_ge_pe(ax, t, y_ge, y_pe)
+    plot_ge_pe(ax, t, y_ge, y_pe, use_markers=True)
     ax.axhline(0.0, linestyle="--", linewidth=1.0, color="black")
     ax.axhline(y_ss, linestyle=":", linewidth=1.5, color="red", label="New steady state")
     ax.axvline(t_half, linestyle=":", linewidth=1.0, color="grey")
@@ -382,7 +391,7 @@ def make_fig3(outdir: Path, formats: Iterable[str], p: Params) -> None:
 
     fig, ax = plt.subplots(figsize=(7.5, 4.2))
 
-    plot_ge_pe(ax, t, y_ge, y_pe)
+    plot_ge_pe(ax, t, y_ge, y_pe, use_markers=True)
     ax.axhline(1.0, linestyle=":", linewidth=1.0, color="grey")
 
     ax.set_xlabel("Quarters")

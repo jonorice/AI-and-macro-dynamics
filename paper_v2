@@ -790,7 +790,7 @@ gaps in levels and half-lives.
 To illustrate the link between the GE solution \eqref{eq:GE_system}--\eqref{eq:GE_solution}
 and the PE benchmark \eqref{eq:PE_recursions}, Figure~\ref{fig:irf_M_shock} plots the
 response of AI capacity and tangible capital to a one-off 1\% increase in $M_t$ at date $0$. Unlike the GE system, this PE benchmark holds investment fixed at steady-state replacement levels and therefore abstracts from endogenous movements in consumption and marginal utility; the comparison below therefore measures how large the GE feedbacks are in the baseline calibration. The solid lines show the GE impulse responses, based on the linear system
-\eqref{eq:GE_system}; the dashed lines show the PE geometric paths
+\eqref{eq:GE_system}; the circle markers show the PE geometric paths
 $m_t = (1-\delta_M)^t m_0$ and $k_t = (1-\delta)^t k_0$. 
 
 
@@ -803,9 +803,8 @@ $m_t = (1-\delta_M)^t m_0$ and $k_t = (1-\delta)^t k_0$.
 \footnotesize
 Notes: The figure plots log deviations of $M_t$ (left panel) and $K_t$ (right panel) from the
 steady state following a 1\% increase in $M_0$. Solid lines: linear GE dynamics from
-\eqref{eq:GE_system}. Dashed lines: partial equilibrium geometric benchmark
-\eqref{eq:PE_recursions}. Under the baseline calibration the GE roots are very close to the
-survival rates $(1-\delta_M,1-\delta)$, so the GE and PE paths overlap one another almost perfectly.
+\eqref{eq:GE_system}. Circle markers: partial equilibrium geometric benchmark
+\eqref{eq:PE_recursions}. In the baseline calibration the PE benchmark is visually indistinguishable from the GE response at this scale and therefore lies almost entirely underneath the solid line.
 \end{minipage}
 \end{figure}
 
@@ -860,8 +859,9 @@ longer than in the baseline because the improvement in longevity slows adjustmen
 \footnotesize
 Notes: The figure plots log deviations of AI capacity from the new steady state after a permanent
 two-percentage-point fall in $\delta_M$. Solid line: GE dynamics with Jacobian
-re-evaluated at $(K^{**},M^{**})$. Dashed line: PE benchmark
+re-evaluated at $(K^{**},M^{**})$. Circle markers: PE benchmark
 \eqref{eq:PE_longevity}, in which the gap closes at the new survival rate $1-\delta_M+\Delta$.
+In the baseline calibration the PE benchmark is visually indistinguishable from the GE response at this scale and therefore lies almost entirely underneath the solid line.
 \end{minipage}
 \end{figure}
 
@@ -897,9 +897,9 @@ and PE paths.
 \footnotesize
 Notes: The figure plots $M_t/M^{*}$ under the GE dynamics
 \eqref{eq:GE_system} (solid line) and the PE diffusion benchmark
-\eqref{eq:PE_diffusion} (dashed line) for an economy starting from $M_0 \approx 0$.
+\eqref{eq:PE_diffusion} (circle markers) for an economy starting from $M_0 \approx 0$.
 Under the baseline calibration, about 90\% of the steady-state AI stock is reached within
-roughly six years in both cases.
+roughly six years. The PE benchmark is visually indistinguishable from the GE response at this scale and therefore lies almost entirely underneath the solid line.
 \end{minipage}
 \end{figure}
 
