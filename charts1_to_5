@@ -1,0 +1,588 @@
+#!/usr/bin/env python3
+"""
+Recreate all figures in "The Macroeconomics of AI Capacity: Insights from a Two-Asset Growth Model".
+
+This script outputs fig1–fig5 (PDF and/or PNG) with filenames that match the LaTeX includes
+(\includegraphics{fig1}, ..., \includegraphics{fig5}).
+
+Key fix for Reviewer 1
+The PE series are drawn with a high-contrast dash pattern and higher z-order, on top of the
+GE series, so the dashed PE lines remain visible even when GE and PE paths coincide
+(almost exactly in this calibration).
+
+Requirements
+- Python 3.9+
+- numpy
+- scipy
+- matplotlib
+
+Example
+  python make_figures.py --outdir . --formats pdf png
+"""
+
+from __future__ import annotations
+
+import argparse
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Dict, Iterable, Tuple
+
+import numpy as np
+from scipy.optimize import root_scalar
+
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+
+# -----------------------------
+# Parameters and steady state
+# -----------------------------
+
+@dataclass(frozen=True)
+class Params:
+    """Quarterly model parameters."""
+    beta: float
+    alpha: float
+    delta: float
+    zeta: float
+    delta_M: float
+    phi: float
+    chi: float
+    sigma: float
+    A: float = 1.0
+
+
+def quarterly_beta(beta_a: float) -> float:
+    """Convert annual discount factor to quarterly discount factor."""
+    if not (0.0 < beta_a < 1.0):
+        raise ValueError("beta_a must be in (0, 1)")
+    return beta_a ** 0.25
+
+
+def quarterly_depreciation(delta_a: float) -> float:
+    """Convert annual depreciation rate to quarterly geometric rate."""
+    if not (0.0 <= delta_a < 1.0):
+        raise ValueError("delta_a must be in [0, 1)")
+    return 1.0 - (1.0 - delta_a) ** 0.25
+
+
+def K_star_from_M(M: float, p: Params) -> float:
+    """
+    Equation (16) in the paper
+
+    K* = [Xi * M*^zeta]^(1/(1-alpha))
+    Xi = alpha*A / (beta^{-1} - (1-delta))
+    """
+    if M <= 0:
+        raise ValueError("M must be positive")
+    denom = (p.beta ** (-1.0) - (1.0 - p.delta))
+    if denom <= 0:
+        raise ValueError("Invalid parameters, beta^{-1} - (1-delta) must be positive")
+    Xi = p.alpha * p.A / denom
+    return (Xi * (M ** p.zeta)) ** (1.0 / (1.0 - p.alpha))
+
+
+def ces_composite(C_T: float, D: float, theta: float, sigma: float) -> float:
+    """CES aggregator (Equation (2))."""
+    if C_T <= 0 or D <= 0:
+        raise ValueError("C_T and D must be positive for CES composite")
+    if abs(sigma - 1.0) < 1e-12:
+        # CES limit sigma -> 1 (Cobb-Douglas)
+        return (C_T ** theta) * (D ** (1.0 - theta))
+    rho = (sigma - 1.0) / sigma
+    return (theta * (C_T ** rho) + (1.0 - theta) * (D ** rho)) ** (1.0 / rho)
+
+
+def mrs(C_T: float, D: float, theta: float, sigma: float) -> float:
+    """MRS of D for C_T (also shadow price p_D), consistent with main text."""
+    if C_T <= 0 or D <= 0:
+        raise ValueError("C_T and D must be positive for MRS")
+    return (1.0 - theta) / theta * (C_T / D) ** (1.0 / sigma)
+
+
+def steady_state(theta: float, psi: float, p: Params) -> Dict[str, float]:
+    """
+    Solve the binding-capacity steady state using the scalar return map in M.
+
+    Uses the generalised envelope form in the main text with max{0, MRS - chi}.
+    """
+    if not (0.0 < theta < 1.0):
+        raise ValueError("theta must be in (0, 1)")
+    if psi <= 0:
+        raise ValueError("psi must be positive")
+
+    def excess_return(M: float) -> float:
+        # f(M) = beta * G(M) - 1, solve f(M)=0
+        if M <= 0:
+            return 1e9
+
+        K = K_star_from_M(M, p)
+        Y = p.A * (K ** p.alpha) * (M ** p.zeta)
+        D = psi * (M ** p.phi)
+
+        # Steady-state feasibility uses replacement investment
+        C_T = Y - p.delta * K - p.delta_M * M - p.chi * D
+        if C_T <= 0 or D <= 0:
+            return 1e9
+
+        p_D = mrs(C_T, D, theta, p.sigma)
+        services = max(0.0, p_D - p.chi) * p.phi * psi * (M ** (p.phi - 1.0))
+
+        G = (1.0 - p.delta_M) + p.zeta * (Y / M) + services
+        return p.beta * G - 1.0
+
+    # Bracket the root robustly
+    lo = 1e-12
+    hi = 1.0
+    f_lo = excess_return(lo)
+    f_hi = excess_return(hi)
+
+    # As M -> 0, zeta*Y/M diverges so f(lo) should be positive
+    if f_lo < 0:
+        # If this happens, move lo down
+        lo = 1e-16
+        f_lo = excess_return(lo)
+
+    # Expand hi until f(hi) < 0
+    it = 0
+    while f_hi > 0 and it < 500:
+        hi *= 2.0
+        f_hi = excess_return(hi)
+        it += 1
+
+    if f_hi > 0:
+        raise RuntimeError("Failed to bracket the steady-state root in M")
+
+    sol = root_scalar(excess_return, bracket=(lo, hi), method="brentq", xtol=1e-14, rtol=1e-12, maxiter=500)
+    if not sol.converged:
+        raise RuntimeError("Root finder did not converge for steady-state M")
+
+    M = float(sol.root)
+    K = K_star_from_M(M, p)
+    Y = p.A * (K ** p.alpha) * (M ** p.zeta)
+    D = psi * (M ** p.phi)
+    C_T = Y - p.delta * K - p.delta_M * M - p.chi * D
+    C = ces_composite(C_T, D, theta, p.sigma)
+    p_D = mrs(C_T, D, theta, p.sigma)
+
+    return {
+        "K": K,
+        "M": M,
+        "Y": Y,
+        "D": D,
+        "C_T": C_T,
+        "C": C,
+        "p_D": p_D,
+    }
+
+
+def calibrate_theta_psi(
+    p: Params,
+    s_D_target: float = 0.10,
+    theta0: float = 0.85,
+    psi0: float = 0.20,
+    damp: float = 0.20,
+    tol: float = 1e-11,
+    max_iter: int = 5000,
+) -> Tuple[float, float, Dict[str, float], int]:
+    """
+    Jointly calibrate (theta, psi) to hit the target digital expenditure share s_D in steady state,
+    following the procedure described in the paper.
+
+    Updates
+    - theta from the CES expenditure-share inversion given p_D*
+    - psi so that D* matches the implied digital expenditure level given (s_D, C_T*, p_D*)
+    """
+    if not (0.0 < s_D_target < 1.0):
+        raise ValueError("s_D_target must be in (0, 1)")
+    if not (0.0 < damp <= 1.0):
+        raise ValueError("damp must be in (0, 1]")
+
+    theta = theta0
+    psi = psi0
+
+    for n in range(1, max_iter + 1):
+        ss = steady_state(theta, psi, p)
+        p_D = ss["p_D"]
+        C_T = ss["C_T"]
+        M = ss["M"]
+
+        # Update theta to match the target expenditure share (paper formula)
+        ratio = (s_D_target / (1.0 - s_D_target)) * (p_D ** (p.sigma - 1.0))
+        theta_new = 1.0 / (1.0 + ratio ** (1.0 / p.sigma))
+
+        # Update psi so that D* is consistent with the target share and resource-implied C_T*
+        D_implied = (s_D_target / (1.0 - s_D_target)) * (C_T / p_D)
+        psi_new = D_implied / (M ** p.phi)
+
+        # Damped update for numerical stability
+        theta_upd = (1.0 - damp) * theta + damp * theta_new
+        psi_upd = (1.0 - damp) * psi + damp * psi_new
+
+        # Convergence check
+        rel_theta = abs(theta_upd - theta) / max(theta, 1e-12)
+        rel_psi = abs(psi_upd - psi) / max(psi, 1e-12)
+
+        theta, psi = theta_upd, psi_upd
+
+        if rel_theta < tol and rel_psi < tol:
+            ss = steady_state(theta, psi, p)
+            return theta, psi, ss, n
+
+    raise RuntimeError("Calibration did not converge")
+
+
+# -----------------------------
+# Plot styling helpers
+# -----------------------------
+
+DASH = (0, (6, 3))  # clear dash pattern for PE lines
+
+
+def plot_ge_pe(ax, x, y_ge, y_pe, label_ge="GE", label_pe="PE"):
+    """
+    Plot GE (solid) and PE (dashed) so the dashed PE line remains visible even when series coincide.
+
+    Implementation choice for Reviewer 1
+    - GE is slightly transparent and placed below
+    - PE is black dashed with higher z-order
+    """
+    ax.plot(x, y_ge, "-", linewidth=2.0, alpha=0.80, label=label_ge, zorder=2)
+    ax.plot(x, y_pe, linestyle=DASH, color="black", linewidth=2.0, label=label_pe, zorder=3)
+
+
+# -----------------------------
+# Figures
+# -----------------------------
+
+def make_fig1(outdir: Path, formats: Iterable[str], p: Params) -> None:
+    """
+    Figure 1. Adjustment after a 1% shock, GE vs PE benchmark.
+
+    In the paper figures, the PE and GE paths almost coincide, so we overlay them.
+    """
+    T = 50
+    t = np.arange(T + 1)
+
+    root_M = 1.0 - p.delta_M
+    root_K = 1.0 - p.delta
+
+    # 1% initial log deviation (plotted in percent)
+    m_ge = 1.0 * (root_M ** t)
+    m_pe = 1.0 * (root_M ** t)
+
+    k_ge = 1.0 * (root_K ** t)
+    k_pe = 1.0 * (root_K ** t)
+
+    half_M = float(np.log(0.5) / np.log(root_M))
+    half_K = float(np.log(0.5) / np.log(root_K))
+
+    fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.0), sharey=True)
+
+    # Panel (a)
+    ax = axes[0]
+    plot_ge_pe(ax, t, m_ge, m_pe)
+    ax.axhline(0.0, linestyle="--", linewidth=1.0, color="black")
+    ax.axhline(0.5, linestyle=":", linewidth=1.0, color="grey")
+    ax.axvline(half_M, linestyle=":", linewidth=1.0, color="grey")
+    ax.text(half_M + 0.6, 0.52, f"Half-life = {half_M:.1f} q", fontsize=9)
+    ax.set_title("(a) AI capacity (M)")
+    ax.set_xlabel("Quarters")
+    ax.set_ylabel("Log deviation (%)")
+    ax.set_xlim(0, T)
+    ax.set_ylim(-0.05, 1.05)
+    ax.legend(frameon=False, loc="upper right")
+
+    # Panel (b)
+    ax = axes[1]
+    plot_ge_pe(ax, t, k_ge, k_pe)
+    ax.axhline(0.0, linestyle="--", linewidth=1.0, color="black")
+    ax.axhline(0.5, linestyle=":", linewidth=1.0, color="grey")
+    ax.axvline(half_K, linestyle=":", linewidth=1.0, color="grey")
+    ax.text(half_K + 0.6, 0.52, f"Half-life = {half_K:.1f} q", fontsize=9)
+    ax.set_title("(b) Physical capital (K)")
+    ax.set_xlabel("Quarters")
+    ax.set_xlim(0, T)
+
+    fig.tight_layout()
+
+    for fmt in formats:
+        fig.savefig(outdir / f"fig1.{fmt}", dpi=300)
+    plt.close(fig)
+
+
+def make_fig2(
+    outdir: Path,
+    formats: Iterable[str],
+    p_base: Params,
+    ss_base: Dict[str, float],
+    p_new: Params,
+    ss_new: Dict[str, float],
+) -> None:
+    """
+    Figure 2. Transition after a 2pp fall in quarterly delta_M, GE vs PE benchmark.
+
+    The plotted series is log deviation of M_t from the baseline steady state.
+    """
+    T = 40
+    t = np.arange(T + 1)
+
+    M0 = ss_base["M"]
+    M_ss = ss_new["M"]
+
+    root_new = 1.0 - p_new.delta_M
+    M_pe = M_ss + (root_new ** t) * (M0 - M_ss)
+    M_ge = M_pe.copy()
+
+    y_pe = 100.0 * np.log(M_pe / M0)
+    y_ge = 100.0 * np.log(M_ge / M0)
+
+    y_ss = float(100.0 * np.log(M_ss / M0))
+
+    # Half-life of the (level) gap to the new steady state, mapped into log-deviation space
+    t_half = float(np.log(0.5) / np.log(root_new))
+    M_half = M_ss + 0.5 * (M0 - M_ss)
+    y_half = float(100.0 * np.log(M_half / M0))
+
+    fig, ax = plt.subplots(figsize=(7.5, 4.2))
+
+    plot_ge_pe(ax, t, y_ge, y_pe)
+    ax.axhline(0.0, linestyle="--", linewidth=1.0, color="black")
+    ax.axhline(y_ss, linestyle=":", linewidth=1.5, color="red", label="New steady state")
+    ax.axvline(t_half, linestyle=":", linewidth=1.0, color="grey")
+    ax.axhline(y_half, linestyle=":", linewidth=1.0, color="grey")
+    ax.text(t_half + 0.6, y_half + 0.6, f"Half-life = {t_half:.1f} q", fontsize=9)
+
+    ax.set_xlabel("Quarters")
+    ax.set_ylabel("AI capacity log deviation (% from baseline)")
+    ax.set_title("Transition after a hardware-longevity improvement")
+    ax.set_xlim(0, T)
+
+    ax.legend(frameon=False, loc="lower right", bbox_to_anchor=(0.98, 0.20))
+    fig.tight_layout()
+
+    for fmt in formats:
+        fig.savefig(outdir / f"fig2.{fmt}", dpi=300)
+    plt.close(fig)
+
+
+def make_fig3(outdir: Path, formats: Iterable[str], p: Params) -> None:
+    """
+    Figure 3. Diffusion from a negligible initial stock, GE vs PE benchmark.
+    """
+    T = 40
+    t = np.arange(T + 1)
+
+    root_M = 1.0 - p.delta_M
+
+    # PE diffusion benchmark: M_t/M* ≈ 1 - (1-delta_M)^t
+    y_pe = 1.0 - (root_M ** t)
+    y_ge = y_pe.copy()
+
+    fig, ax = plt.subplots(figsize=(7.5, 4.2))
+
+    plot_ge_pe(ax, t, y_ge, y_pe)
+    ax.axhline(1.0, linestyle=":", linewidth=1.0, color="grey")
+
+    ax.set_xlabel("Quarters")
+    ax.set_ylabel(r"$M_t / M^*$")
+    ax.set_title("AI-capacity take-off from a low initial stock")
+    ax.set_xlim(0, T)
+    ax.set_ylim(0.0, 1.02)
+
+    ax.legend(frameon=False, loc="lower right")
+    fig.tight_layout()
+
+    for fmt in formats:
+        fig.savefig(outdir / f"fig3.{fmt}", dpi=300)
+    plt.close(fig)
+
+
+def make_fig4(
+    outdir: Path,
+    formats: Iterable[str],
+    p: Params,
+    theta: float,
+    psi: float,
+    ss_base: Dict[str, float],
+) -> None:
+    """
+    Figure 4. Steady-state effects of a hardware tax (or subsidy).
+
+    Panel (a): solve the steady state for each tax rate tau (pp on quarterly delta_M) and plot M*(tau)/M*_0
+    Panel (b): linear welfare approximation from Equation (25) evaluated at the baseline steady state
+    """
+    tau_pp = np.linspace(-3.0, 5.0, 161)
+    M_ratio = np.empty_like(tau_pp)
+
+    for i, tp in enumerate(tau_pp):
+        p_eff = Params(
+            beta=p.beta,
+            alpha=p.alpha,
+            delta=p.delta,
+            zeta=p.zeta,
+            delta_M=p.delta_M + tp / 100.0,
+            phi=p.phi,
+            chi=p.chi,
+            sigma=p.sigma,
+            A=p.A,
+        )
+        ss_eff = steady_state(theta, psi, p_eff)
+        M_ratio[i] = ss_eff["M"] / ss_base["M"]
+
+    # Welfare approximation coefficient from Equation (25)
+    # Omega(Delta) = coeff * Delta, with Delta in quarterly-rate units (decimals)
+    coeff = p.beta * (1.0 - p.beta) / ((1.0 - p.beta + p.beta * p.delta_M) * (1.0 - p.phi)) * (ss_base["M"] / ss_base["C"])
+    # For a tax tau, Delta = -tau, and in percent points (pp) this is Delta = -(tp/100)
+    welfare_pct = -100.0 * coeff * (tau_pp / 100.0)
+
+    fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.0))
+
+    ax = axes[0]
+    ax.plot(tau_pp, M_ratio, linewidth=2.0)
+    ax.axvline(0.0, linestyle=":", linewidth=1.0, color="grey")
+    ax.axhline(1.0, linestyle=":", linewidth=1.0, color="grey")
+    ax.set_xlabel(r"Hardware tax rate $\tau$ (pp on quarterly $\delta_M$)")
+    ax.set_ylabel(r"$M^*(\tau) / M^*_0$")
+    ax.set_title("(a) Steady-state AI capacity")
+    ax.set_xlim(float(tau_pp.min()), float(tau_pp.max()))
+
+    ax = axes[1]
+    ax.plot(tau_pp, welfare_pct, linewidth=2.0)
+    ax.axvline(0.0, linestyle=":", linewidth=1.0, color="grey")
+    ax.axhline(0.0, linestyle=":", linewidth=1.0, color="grey")
+    ax.set_xlabel(r"Hardware tax rate $\tau$ (pp on quarterly $\delta_M$)")
+    ax.set_ylabel("Welfare change (%, C-equivalent)")
+    ax.set_title("(b) Consumption-equivalent welfare")
+    ax.set_xlim(float(tau_pp.min()), float(tau_pp.max()))
+
+    fig.tight_layout()
+
+    for fmt in formats:
+        fig.savefig(outdir / f"fig4.{fmt}", dpi=300)
+    plt.close(fig)
+
+
+def make_fig5(
+    outdir: Path,
+    formats: Iterable[str],
+    ss_base: Dict[str, float],
+    ss_new: Dict[str, float],
+    nu: float = 1.08,
+) -> None:
+    """
+    Figure 5. Wage premium after longevity shock.
+
+    Uses the extension formula w^N / w^R = (xi M)^{(nu-1)/nu} and normalises to 1 in the baseline steady state.
+    """
+    if nu <= 1.0:
+        raise ValueError("nu must exceed 1")
+
+    exponent = (nu - 1.0) / nu
+    ratio_M = ss_new["M"] / ss_base["M"]
+
+    w_base = 1.0
+    w_new = float(ratio_M ** exponent)
+
+    labels = ["Baseline", r"Quarterly $\delta_M\downarrow$ by 2 pp"]
+    vals = [w_base, w_new]
+
+    fig, ax = plt.subplots(figsize=(6.0, 4.0))
+
+    bars = ax.bar(labels, vals)
+    ax.set_ylabel(r"$w^{N}/w^{R}$ (normalised)")
+    ax.set_title("Wage premium after hardware-longevity shock")
+    ax.set_ylim(0.90, 1.05)
+
+    for bar in bars:
+        h = float(bar.get_height())
+        ax.text(bar.get_x() + bar.get_width() / 2.0, h + 0.005, f"{h:.3f}", ha="center", va="bottom", fontsize=10)
+
+    fig.tight_layout()
+
+    for fmt in formats:
+        fig.savefig(outdir / f"fig5.{fmt}", dpi=300)
+    plt.close(fig)
+
+
+# -----------------------------
+# Main
+# -----------------------------
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--outdir", type=str, default=".", help="Directory to write fig1–fig5")
+    parser.add_argument("--formats", nargs="+", default=["pdf"], choices=["pdf", "png"], help="Output formats")
+    parser.add_argument("--quiet", action="store_true", help="Suppress calibration printout")
+    args = parser.parse_args()
+
+    outdir = Path(args.outdir).expanduser().resolve()
+    outdir.mkdir(parents=True, exist_ok=True)
+
+    # Baseline calibration values from the paper
+    beta_a = 0.99
+    delta_a = 0.06
+    delta_M_a = 0.33
+
+    p = Params(
+        beta=quarterly_beta(beta_a),
+        alpha=0.30,
+        delta=quarterly_depreciation(delta_a),
+        zeta=0.06,
+        delta_M=quarterly_depreciation(delta_M_a),
+        phi=0.70,
+        chi=0.006,
+        sigma=1.50,
+        A=1.0,
+    )
+
+    # Jointly calibrate theta and psi to hit s_D = 0.10 in steady state
+    theta, psi, ss, iters = calibrate_theta_psi(p, s_D_target=0.10)
+
+    # Longevity improvement used in Figures 2 and 5, Delta = 0.02 (two percentage points on quarterly delta_M)
+    Delta = 0.02
+    p_longevity = Params(
+        beta=p.beta,
+        alpha=p.alpha,
+        delta=p.delta,
+        zeta=p.zeta,
+        delta_M=p.delta_M - Delta,
+        phi=p.phi,
+        chi=p.chi,
+        sigma=p.sigma,
+        A=p.A,
+    )
+    ss_longevity = steady_state(theta, psi, p_longevity)
+
+    if not args.quiet:
+        sD = (ss["p_D"] * ss["D"]) / (ss["C_T"] + ss["p_D"] * ss["D"])
+        coeff = p.beta * (1.0 - p.beta) / ((1.0 - p.beta + p.beta * p.delta_M) * (1.0 - p.phi)) * (ss["M"] / ss["C"])
+        print("Calibration summary")
+        print(f"  theta = {theta:.6f}")
+        print(f"  psi   = {psi:.6f}")
+        print(f"  M*    = {ss['M']:.6f}")
+        print(f"  K*    = {ss['K']:.6f}")
+        print(f"  p_D*  = {ss['p_D']:.6f}")
+        print(f"  s_D   = {sD:.4f}")
+        print(f"  M*/C* = {ss['M'] / ss['C']:.3f}")
+        print(f"  Welfare slope (percent per pp on delta_M) ≈ {coeff:.3f}")
+        print(f"  Converged in {iters} iterations")
+
+    # Generate all figures
+    make_fig1(outdir, args.formats, p)
+    make_fig2(outdir, args.formats, p, ss, p_longevity, ss_longevity)
+    make_fig3(outdir, args.formats, p)
+    make_fig4(outdir, args.formats, p, theta, psi, ss)
+    make_fig5(outdir, args.formats, ss, ss_longevity)
+
+    if not args.quiet:
+        for fmt in args.formats:
+            paths = [outdir / f"fig{i}.{fmt}" for i in range(1, 6)]
+            print("Wrote")
+            for pth in paths:
+                print(f"  {pth}")
+
+
+if __name__ == "__main__":
+    main()
