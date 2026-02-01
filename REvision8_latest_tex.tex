@@ -13,6 +13,8 @@
 %% ------------------------------------------------------------
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{bm}                  % bold maths symbols
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
 
 %% ------------------------------------------------------------
 %% Layout and spacing
@@ -87,7 +89,7 @@ Insights from a Two-Asset Growth Model\par}
 \vspace{0.5cm}
 
 \begin{abstract}
-Specialised AI hardware depreciates far faster than conventional capital. This paper embeds that distinction in a growth model with two capital stocks: conventional capital and AI-related compute capacity. Because replacement investment in short-lived hardware is large, even small stock misalignments can be corrected quickly by adjusting gross investment. Calibrated to advanced economies in the mid-2020s, the model helps rationalise boom-bust patterns in data-centre spending. Macro outcomes are sensitive to the rate at which hardware loses value: a two-percentage-point reduction in quarterly depreciation raises welfare by 0.36\% in consumption-equivalent terms, while an equal-sized compute tax shrinks the AI stock by around one-fifth.
+Specialised AI hardware becomes economically obsolete far faster than conventional capital, so sustaining a given stock of compute requires a high rate of replacement investment. This paper studies what that asymmetry implies for growth, adjustment dynamics, and policy in a two asset growth model in which AI capacity both raises productivity and produces low marginal cost digital services. Calibrated to advanced economies, the model delivers two distinct adjustment speeds, with AI capacity reverting quickly with a half life of about seven quarters, while conventional capital adjusts over roughly a decade. A key implication is that when hardware is short lived, modest shifts in gross spending can generate large swings in measured AI investment while leaving the underlying stock close to its long run target, which helps rationalise the boom bust patterns seen in data centre expenditure. Hardware durability therefore has first order welfare consequences. A two percentage point fall in quarterly depreciation raises welfare by 0.36\% in consumption equivalent terms, while an equal sized compute tax reduces the steady state AI stock by around one fifth.
 \end{abstract}
 
 \vfill
@@ -1412,7 +1414,8 @@ Under Assumption~A.1, on $\mathcal D=(0,M_{\max})$ the map $G(\cdot)$ is continu
 \end{lemma}
 
 
-Proof: We analyse each component of \eqref{eq:GM}.
+\begin{proof}
+We analyse each component of \eqref{eq:GM}.
 
 (i) \emph{Productivity term.} Since $Y^*(M)=\kappa_Y M^\gamma$ with $\gamma\in(0,1)$, $\zeta\,Y^*(M)/M=\zeta\kappa_Y M^{\gamma-1}$ is strictly decreasing in $M$.
 
@@ -1449,7 +1452,7 @@ so $p_D^{\mathrm{cap}\,\prime}(M)<0$ and therefore $H'(M)<0$. In the slack regim
 G'(M)\;=\;\zeta\kappa_Y(\gamma-1)M^{\gamma-2}\;<\;0.
 \]
 Summing (i)--(iii) shows $G$ is continuous and strictly decreasing on $\mathcal D$ and continuous (though kinked) at any endogenous regime switch.
-
+\end{proof}
 
 \subsection{Existence, uniqueness and interiority}
 
@@ -1470,7 +1473,7 @@ When $M_{\max}<\infty$ this reduces to $\beta^{-1}>(1-\delta_M)+\zeta\,\kappa_Y 
 Under Assumptions~A.1--A.2 there exists a unique $M^*\in(0,M_{\max})$ solving \eqref{eq:SS-M}. No steady state exists with $M\ge M_{\max}$. The associated steady state is feasible and interior \bigl($C_T^{\mathrm{cap}}(M^*)>0$, hence $C_T^*(M^*)\ge C_T^{\mathrm{cap}}(M^*)>0$ and $D^*>0$\bigr).
 \end{proposition}
 
-Proof:
+\begin{proof}
 As $M\downarrow 0$, $\zeta Y^*(M)/M=\zeta\kappa_Y M^{\gamma-1}\to+\infty$ because $0<\gamma<1$. Hence $\lim_{M\downarrow 0}G(M)=+\infty$.
 
 If $M_{\max}<\infty$, then as $M\uparrow M_{\max}$ we have $C_T^{\mathrm{cap}}(M)\downarrow 0$ so $\tfrac{C_T^{\mathrm{cap}}}{D^{\mathrm{cap}}}\to 0$ and thus $p_D^{\mathrm{cap}}(M)\to 0$, implying $H(M)\to 0$. Therefore
