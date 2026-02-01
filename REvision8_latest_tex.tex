@@ -709,7 +709,7 @@ t_{1/2}(\lambda_i)
 \]
 % Fixed: Replaced \simeq with \approx for better typography.
 In the baseline calibration of Section~\ref{sec:calibration}, the fast eigenvalue $\lambda_1$
-is near zero ($\approx 7.7\times 10^{-6}$), implying an extremely rapid adjustment mode through which the planner eliminates most stock deviations within one or two quarters by re-optimising gross investment. The slow eigenvalue $\lambda_2\approx 0.980$ governs the gradual convergence of tangible capital. Appendix~B reports the full numerical Jacobian. For comparison, the PE survival rates are $1-\delta_M\approx 0.905$ and $1-\delta\approx 0.985$; the GE eigenvalues diverge from these benchmarks because the corrected linearisation keeps investment endogenous in the feasibility constraint. Economically, the system decomposes into a fast mode through which the planner exploits the large replacement flows of short-lived AI hardware to close stock gaps quickly, and a slow mode associated with the
+is near zero ($\approx 7.4\times 10^{-6}$), implying an extremely rapid adjustment mode through which the planner eliminates most stock deviations within one or two quarters by re-optimising gross investment. The slow eigenvalue $\lambda_2\approx 0.980$ governs the gradual convergence of tangible capital. Appendix~B reports the full numerical Jacobian. For comparison, the PE survival rates are $1-\delta_M\approx 0.905$ and $1-\delta\approx 0.985$; the GE eigenvalues diverge from these benchmarks because the corrected linearisation keeps investment endogenous in the feasibility constraint. Economically, the system decomposes into a fast mode through which the planner exploits the large replacement flows of short-lived AI hardware to close stock gaps quickly, and a slow mode associated with the
 sluggish adjustment of tangible capital.
 
 Given an initial deviation $x_0 \equiv (k_0,m_0)^{\prime}$, the GE solution is
@@ -734,14 +734,14 @@ a simpler benchmark that makes the role of depreciation rates completely transpa
 Following the heuristic in the original version of the paper, consider a PE experiment in
 which investment in each asset is fixed at its steady-state replacement level. The capital-stock
 equations then become
-\begin{align}
+\begin{align*}
 K_{t+1}
 &=
 (1-\delta)\,K_t + \delta K^{*}, \\
 M_{t+1}
 &=
 (1-\delta_M)\,M_t + \delta_M M^{*}.
-\end{align}
+\end{align*}
 Expressed in log deviations, a first-order approximation delivers
 % Fixed: Added \tag{20}
 \begin{equation}
@@ -864,7 +864,7 @@ so that the gap to the steady state closes at the survival rate $1-\delta_M$. Wi
 calibration, half of $M^{*}$ is reached after about $t^{M}_{1/2} \approx 6.9$ quarters and
 around 90\% after roughly 23 quarters (just under six years).
 
-In the GE system, the qualitative pattern is similar but the speed of diffusion differs. Starting from a low $M_0$ and a correspondingly low $K_0$, the planner must build up both capital stocks simultaneously while keeping consumption non-negative, which requires smoothing investment over a longer horizon than the PE benchmark assumes. As a result, the nonlinear perfect-foresight GE transition converges more slowly than \eqref{eq:PE_diffusion}: the PE benchmark implicitly front-loads investment at the steady-state replacement rate from date zero, whereas the GE planner optimally spreads the build-up across many periods. Figure~\ref{fig:diffusion_paths} compares the two paths.
+Unlike Figures~\ref{fig:irf_M_shock} and~\ref{fig:longevity_transition}, which are based on the local linear stable-manifold solution~\eqref{eq:GE_solution}, the GE path in Figure~\ref{fig:diffusion_paths} is computed from the nonlinear perfect-foresight system because the economy starts far from its steady state and a linear approximation would be unreliable. In the GE system, the qualitative pattern is similar but the speed of diffusion differs. Starting from a low $M_0$ and a correspondingly low $K_0$, the planner must build up both capital stocks simultaneously while keeping consumption non-negative, which requires smoothing investment over a longer horizon than the PE benchmark assumes. As a result, the nonlinear perfect-foresight GE transition converges more slowly than \eqref{eq:PE_diffusion}: the PE benchmark implicitly front-loads investment at the steady-state replacement rate from date zero, whereas the GE planner optimally spreads the build-up across many periods. Figure~\ref{fig:diffusion_paths} compares the two paths.
 
 \begin{figure}[H]
 \centering
@@ -1249,7 +1249,7 @@ remaining simple enough to fit on the back of an envelope, offers a useful start
 thinking about the macroeconomics of the next wave of capital deepening.
 
 \newpage
-\bibliography{refs}
+\bibliography{bib_v2}
 \newpage 
 
 % ============================
@@ -1693,14 +1693,14 @@ Under the baseline calibration in Table~\ref{tab:baseline_calib}, the computed r
 \begin{equation}
 J \approx
 \begin{pmatrix}
-0.947 & 0.061\\
-0.507 & 0.033
+0.947252 & 0.060840\\
+0.507004 & 0.032571
 \end{pmatrix},
 \label{eq:B_J_numeric}
 \end{equation}
 with eigenvalues
 \begin{equation}
-\lambda_1 \approx 7.7\times10^{-6},\qquad \lambda_2 \approx 0.980.
+\lambda_1 \approx 7.4\times10^{-6},\qquad \lambda_2 \approx 0.980.
 \label{eq:B_eigs_numeric}
 \end{equation}
 The near-zero stable root implies a very rapid adjustment mode that operates through endogenous
