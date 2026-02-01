@@ -1,0 +1,113 @@
+
+% ======================================================================
+% REVISION SNIPPETS (corrected GE linearisation)
+% Copy and paste the blocks below into your main .tex.
+% ======================================================================
+
+% ----------------------------------------------------------------------
+% A. FIGURE NOTES (Figures 1–3)
+% ----------------------------------------------------------------------
+% Replace any sentence claiming the GE and PE paths are "visually indistinguishable".
+% With the corrected GE linearisation, the two paths generally diverge (especially on impact),
+% so the benchmark lines should be visible without special plotting tricks.
+%
+% Suggested note text:
+%
+% Figure 1 notes: "GE is the local stable-manifold solution. PE keeps replacement investment fixed."
+% Figure 2 notes: "GE re-evaluates the local transition at the new steady state after the longevity shock."
+% Figure 3 notes: "GE is a nonlinear perfect-foresight transition anchored at the steady state; PE is the
+%                  replacement-investment diffusion benchmark."
+
+% ----------------------------------------------------------------------
+% B. APPENDIX B REPLACEMENT
+% ----------------------------------------------------------------------
+% Replace your ENTIRE current Appendix B (from "\section{Jacobian, eigenvalues and local dynamics}"
+% up to the end of Appendix B) with the block below.
+
+\section{Jacobian, eigenvalues and local dynamics}
+\label{app:jacobian}
+
+This appendix summarises the construction of the local general-equilibrium dynamics used in
+Section~\ref{sec:dynamics}. Away from the steady state, gross investment is not equal to depreciation,
+so the linearisation must keep investment explicit in the feasibility constraint. Once this is done,
+the Euler block is second order in the predetermined stocks $(K_t,M_t)$ because $\lambda_t$ depends on
+$t$-dated consumption, and consumption depends on the chosen next-period capital stocks.
+
+\medskip
+
+\noindent Throughout, we focus on the empirically relevant binding-capacity regime in which
+$D_t=\psi M_t^{\phi}$ and $\mathrm{MRS}_t>\chi$ at the steady state.
+
+% Number equations as B.1, B.2, ...
+\setcounter{equation}{0}
+\renewcommand{\theequation}{B.\arabic{equation}}
+
+\subsection{Equilibrium conditions used for the linearisation}
+
+Under binding capacity, the relevant equilibrium conditions are
+\begin{align}
+C^{\mathrm T}_t + I^K_t + X_t + \chi D_t &= Y_t, \label{eq:B_resource}\\
+K_{t+1} &= (1-\delta)K_t + I^K_t, \label{eq:B_Klaw}\\
+M_{t+1} &= (1-\delta_M)M_t + X_t, \label{eq:B_Mlaw}\\
+Y_t &= A K_t^{\alpha} M_t^{\zeta}, \qquad D_t=\psi M_t^{\phi}, \label{eq:B_prodcap}\\
+C_t &= \Big[\theta (C^{\mathrm T}_t)^{\rho} + (1-\theta) D_t^{\rho}\Big]^{1/\rho},
+\qquad \rho\equiv\frac{\sigma-1}{\sigma}, \label{eq:B_CES}\\
+\mathrm{MRS}_t &= \frac{1-\theta}{\theta}\Big(\frac{C^{\mathrm T}_t}{D_t}\Big)^{1/\sigma}, \label{eq:B_MRS}
+\end{align}
+together with the Euler equations
+\begin{align}
+\lambda_t &= \beta\,\lambda_{t+1}\Big[(1-\delta)+\alpha\,\frac{Y_{t+1}}{K_{t+1}}\Big], \label{eq:B_eulerK}\\
+\lambda_t &= \beta\,\lambda_{t+1}\Big[(1-\delta_M)+\zeta\,\frac{Y_{t+1}}{M_{t+1}}
++(\mathrm{MRS}_{t+1}-\chi)\,\phi\psi\,M_{t+1}^{\phi-1}\Big], \label{eq:B_eulerM}
+\end{align}
+where $\lambda_t$ is the shadow value of one unit of tangible goods in utility units,
+$\lambda_t = U_C(C_t)\,\partial C_t/\partial C^{\mathrm T}_t$.
+
+\paragraph{Why replacement investment cannot be used away from steady state}
+In the steady state, $I^{K*}=\delta K^{*}$ and $X^{*}=\delta_M M^{*}$, but these identities do not hold
+along transitions. Substituting them into the non-steady-state feasibility condition would eliminate the
+channel through which investment moves $t$-dated consumption and therefore the co-state $\lambda_t$.
+Equations \eqref{eq:B_resource}--\eqref{eq:B_eulerM} retain the correct dependence of $\lambda_t$ on
+investment, which is essential for the local dynamics.
+
+\subsection{Second-order Euler block and reduced state transition}
+
+Let $k_t\equiv\ln K_t-\ln K^{*}$ and $m_t\equiv\ln M_t-\ln M^{*}$ denote log deviations from the
+steady state, and collect them in $x_t\equiv(k_t,m_t)^{\prime}$. Because $\lambda_t$ depends on
+$(K_t,M_t,K_{t+1},M_{t+1})$ via \eqref{eq:B_resource}--\eqref{eq:B_CES}, log-linearising the Euler block
+yields a second-order linear difference equation in $x_t$,
+\begin{equation}
+A\,x_{t+2} + B\,x_{t+1} + C\,x_t = 0,
+\label{eq:B_second_order}
+\end{equation}
+where $A$, $B$ and $C$ are $2\times2$ matrices of steady-state elasticities.
+
+A convenient way to obtain the reduced two-state law of motion is to form the $4\times4$ companion system
+for $(x_{t+1},x_t)$ and select the stable eigenspace. Saddle-path stability implies two eigenvalues inside
+the unit circle, matching the number of predetermined stocks. The resulting local stable-manifold
+transition takes the form
+\begin{equation}
+x_{t+1} = J\,x_t.
+\label{eq:B_GE_reduced}
+\end{equation}
+
+\subsection{Baseline numerical Jacobian and eigenvalues}
+
+Under the baseline calibration in Table~\ref{tab:baseline_calib}, the computed reduced-form Jacobian is
+\begin{equation}
+J \approx
+\begin{pmatrix}
+0.947 & 0.061\\
+0.507 & 0.033
+\end{pmatrix},
+\label{eq:B_J_numeric}
+\end{equation}
+with eigenvalues
+\begin{equation}
+\lambda_1 \approx 7.7\times10^{-6},\qquad \lambda_2 \approx 0.980.
+\label{eq:B_eigs_numeric}
+\end{equation}
+The near-zero stable root implies a very rapid adjustment mode that operates through endogenous
+investment choices for the next-period stocks, while the second root governs the slower component of the
+local convergence. The updated Figures~1--3 report the implied GE paths alongside the depreciation-based
+partial-equilibrium benchmarks.
