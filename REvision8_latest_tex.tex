@@ -60,7 +60,6 @@
 %% ------------------------------------------------------------
 %% Author shortcuts
 %% ------------------------------------------------------------
-% Fixed: Wrapped math commands in \ensuremath{} to ensure they work correctly in both text and math mode.
 \newcommand{\Kss}{\ensuremath{K^{*}}}
 \newcommand{\Mss}{\ensuremath{M^{*}}}
 \newcommand{\CT}{\ensuremath{C^{T}}}
@@ -255,7 +254,6 @@ C_t^{\mathrm T}+I^K_t+X_t+\chi\,D_t=Y_t,
 \tag{5}
 \end{equation}
 and the two assets evolve according to
-% Fixed: Added labels eq:K_law and eq:M_law as they are referenced in Appendix B (from initial prompt).
 \begin{align}
 K_{t+1}&=(1-\delta)\,K_t+I^K_t, & 0<\delta<1, \tag{6}\label{eq:K_law}\\
 M_{t+1}&=(1-\delta_M)\,M_t+X_t, & 0<\delta_M<1. \tag{7}\label{eq:M_law}
@@ -290,7 +288,6 @@ The Kuhn-Tucker conditions yield:
 \end{equation}
 
 \medskip
-% Fixed: Added labels eq:euler_K and eq:euler_M as they are referenced in Appendix B (from initial prompt).
 \textbf{(ii) Euler equation for tangible capital}
 \begin{equation}
 \lambda_t=\beta\,\lambda_{t+1}\Big[(1-\delta)+\alpha\,\frac{Y_{t+1}}{K_{t+1}}\Big].
@@ -321,7 +318,6 @@ regimes yield piecewise-defined local dynamics when the Euler system is linearis
 
 \subsection*{Steady state}
 
-% Fixed: Replaced \star with * throughout for consistency with preamble definitions.
 Let $K_{t+1}=K_t\equiv K^*$, $M_{t+1}=M_t\equiv M^*$ and
 $D^*=\psi (M^*)^{\phi}$ (binding). The Euler conditions become
 \begin{align}
@@ -593,7 +589,6 @@ binding-capacity Euler condition and with the targeted digital share.
 \centering
 \caption{Baseline calibration (mid-2025)}
 \label{tab:calibration}
-% Fixed: Added label tab:baseline_calib as it is referenced in Appendix B (from initial prompt).
 \label{tab:baseline_calib}
 \begin{tabularx}{\textwidth}{@{} p{1.8cm} R c R @{}}
 \toprule\toprule
@@ -601,7 +596,6 @@ binding-capacity Euler condition and with the targeted digital share.
 \midrule
 \multicolumn{4}{l}{\emph{A. Preferences and aggregation}}\\
 $\beta_a$ & Discount factor (annual) & $0.99$ & Targets $r\simeq 1\%$ real; consistent with policy-model long-run assessments.\\
-% Fixed: Replaced Unicode ≈ with \approx
 $\sigma$ & Substitution elasticity ($C^{\mathrm T}$ vs.\ $D$) & $1.5$ & Plausibly $>1$; analogy to home-production substitution ($\approx$1.5--1.8).\\
 \addlinespace
 \multicolumn{4}{l}{\emph{B. Technology (tangible goods)}}\\
@@ -654,7 +648,6 @@ values implied by the calibration in Section~\ref{sec:calibration}.
 
 \subsection{Linear general equilibrium dynamics}
 
-% Fixed: Replaced \star with * throughout for consistency.
 Let $k_t \equiv \ln K_t - \ln K^{*}$ and $m_t \equiv \ln M_t - \ln M^{*}$ denote log deviations
 of the two capital stocks around the steady state $(K^{*},M^{*})$ described in
 Section~\ref{sec:steady_state}. Log-linearising the tangible-capital Euler equation
@@ -662,7 +655,6 @@ Section~\ref{sec:steady_state}. Log-linearising the tangible-capital Euler equat
 \eqref{eq:euler_K}, the AI-capacity Euler equation \eqref{eq:euler_M} and the accumulation
 equations \eqref{eq:K_law}-\eqref{eq:M_law} around $(K^{*},M^{*})$ yields the
 two-dimensional linear system
-% Fixed: Added \tag{18} to continue the numbering sequence from previous sections.
 \begin{equation}
 \begin{bmatrix}
 k_{t+1} \\
@@ -683,7 +675,6 @@ J_{MK} & J_{MM}
 \label{eq:GE_system}\tag{18}
 \end{equation}
 where $J$ is the Jacobian of the law of motion for $(K_t,M_t)$ evaluated at the steady
-% Fixed: Changed \varphi to \phi for consistency with the model definition in Section 3.
 state. Each entry of $J$ is a unit-free elasticity built from the primitive parameters
 $(\alpha,\zeta,\sigma,\theta,\delta,\delta_M,\phi,\psi,\chi)$ and steady-state ratios such as
 $Y^{*}/K^{*}$ and $Y^{*}/M^{*}$. Because investment is endogenous in the feasibility constraint, the Euler block is second order in $(K_t,M_t)$; the reduced two-state law of motion $x_{t+1}=Jx_t$ is obtained by forming a companion system and selecting the stable eigenspace (Appendix~B). Here we focus on the economic content of the resulting GE dynamics and compare them with PE benchmarks that hold investment at replacement levels.
@@ -695,7 +686,6 @@ curvature of the congestion term in the services dividend. The off-diagonal term
 general equilibrium linkages. Through the Cobb-Douglas technology, higher AI capacity
 raises the marginal product of tangible capital and vice versa, generating terms proportional
 to $\alpha\zeta$. When capacity binds, the services dividend contributes an additional
-% Fixed: Changed \varphi to \phi for consistency.
 cross-effect proportional to $(\text{MRS}^{*}-\chi)\phi$; when capacity is slack that
 component is absent.
 
@@ -708,13 +698,11 @@ t_{1/2}(\lambda_i)
 =
 \frac{\ln 0.5}{\ln \lambda_i}, \qquad i=1,2.
 \]
-% Fixed: Replaced \simeq with \approx for better typography.
 In the baseline calibration of Section~\ref{sec:calibration}, the fast eigenvalue $\lambda_1$
-is near zero ($\approx 7.4\times 10^{-6}$), implying an extremely rapid adjustment mode through which the planner eliminates most stock deviations within one or two quarters by re-optimising gross investment. The slow eigenvalue $\lambda_2\approx 0.980$ governs the gradual convergence of tangible capital. Appendix~B reports the full numerical Jacobian. For comparison, the PE survival rates are $1-\delta_M\approx 0.905$ and $1-\delta\approx 0.985$; the GE eigenvalues diverge from these benchmarks because the corrected linearisation keeps investment endogenous in the feasibility constraint. Economically, the system decomposes into a fast mode through which the planner exploits the large replacement flows of short-lived AI hardware to close stock gaps quickly, and a slow mode associated with the
+is near zero ($\approx 7.4\times 10^{-6}$), implying an extremely rapid adjustment mode through which the planner eliminates most stock deviations within one or two quarters by re-optimising gross investment. The slow eigenvalue $\lambda_2\approx 0.980$ governs the gradual convergence of tangible capital. Appendix~B reports the full numerical Jacobian. For comparison, the PE survival rates are $1-\delta_M\approx 0.905$ and $1-\delta\approx 0.985$; the GE eigenvalues diverge from these benchmarks because the linearisation keeps investment endogenous in the feasibility constraint. Economically, the system decomposes into a fast mode through which the planner exploits the large replacement flows of short-lived AI hardware to close stock gaps quickly, and a slow mode associated with the
 sluggish adjustment of tangible capital.
 
 Given an initial deviation $x_0 \equiv (k_0,m_0)^{\prime}$, the GE solution is
-% Fixed: Added \tag{19}
 \begin{equation}
 x_t
 =
@@ -744,7 +732,6 @@ M_{t+1}
 (1-\delta_M)\,M_t + \delta_M M^{*}.
 \end{align*}
 Expressed in log deviations, a first-order approximation delivers
-% Fixed: Added \tag{20}
 \begin{equation}
 k_{t+1} \approx (1-\delta)\,k_t,
 \qquad
@@ -764,7 +751,6 @@ are
 1-\delta \approx 0.985.
 \]
 The implied half-lives are
-% Fixed: Added \tag{21}
 \begin{equation}
 t^{M}_{1/2}
 =
@@ -777,7 +763,7 @@ t^{K}_{1/2}
 \approx 44.8\ \text{quarters} \; (\approx 11 \text{ years})
 \label{eq:PE_half_lives}\tag{21}
 \end{equation}
-These PE half-lives provide a transparent yardstick for passive depreciation-driven decay when investment is held at its steady-state replacement level. In the corrected GE linearisation, investment re-optimisation introduces a much faster adjustment mode for AI capacity, so equilibrium convergence can be substantially quicker than passive decay, especially for high-depreciation hardware. Appendix~B reports the Jacobian and eigenvalues.
+These PE half-lives provide a transparent yardstick for passive depreciation-driven decay when investment is held at its steady-state replacement level. In the GE linearisation, investment re-optimisation introduces a much faster adjustment mode for AI capacity, so equilibrium convergence can be substantially quicker than passive decay, especially for high-depreciation hardware. Appendix~B reports the Jacobian and eigenvalues.
 
 \subsection{Impulse responses: GE versus PE}
 
@@ -805,7 +791,6 @@ For AI capacity, the GE path adjusts markedly faster than the PE benchmark. The 
 
 Consider next a permanent reduction in the quarterly depreciation rate of AI capacity,
 $\delta_M \mapsto \delta_M - \Delta$ with $\Delta>0$, implemented at date $0$. This shock
-% Fixed: Replaced \star\star with **
 shifts the steady state from $(K^{*},M^{*})$ to a new pair $(K^{**},M^{**})$
 with higher AI capacity and higher tangible capital. In the GE system, the transition
 dynamics for the log deviations from the new steady state,
@@ -817,7 +802,6 @@ Jacobian re-evaluated at $(K^{**},M^{**})$.
 
 As a transparent comparison, the PE benchmark assumes that the gap to the new AI
 steady state closes at the new survival rate:
-% Fixed: Added \tag{22}
 \begin{equation}
 M_t - M^{**}
 \approx
@@ -854,7 +838,6 @@ two-percentage-point fall in $\delta_M$. Solid line: GE dynamics re-evaluated at
 Finally, consider the adoption path of AI capacity when the economy starts from a negligible
 stock $M_0 \ll M^{*}$. In the PE benchmark, applying the recursion with $M_0 \approx 0$
 and constant investment at its steady-state value implies
-% Fixed: Added \tag{23}
 \begin{equation}
 M_t
 \approx
@@ -908,7 +891,6 @@ higher depreciation rate. Let $\tau$ denote an ad-valorem tax on the purchase pr
 (or an equivalent surcharge on investment in $M_t$), measured in percentage points on the
 quarterly rate. If firms write hardware off at the baseline $\delta_M$, the effective
 depreciation rate becomes
-% Fixed: Updated tag numbering to (24) to follow sequentially from the previous section.
 \begin{equation}
 \tilde\delta_M = \delta_M + \tau.
 \tag{24}\label{eq:dtilde}
@@ -916,7 +898,6 @@ depreciation rate becomes
 Policies that shorten the accounting life of hardware, add regulatory charges to data-centre
 assets, or impose a levy on compute all operate through this effective rate.
 
-% Fixed: Replaced \star with * for consistency.
 Let $M^*(\delta_M)$ denote the steady-state AI-capacity stock in the binding-capacity
 regime. Appendix~A shows that $M^*$ is uniquely defined and strictly decreasing in
 $\delta_M$. The semi-elasticity of steady-state capacity with respect to the hardware tax,
@@ -950,7 +931,6 @@ repairability, or cooling that extend the useful life of GPUs and related infras
 Linearising the steady-state condition for $M^*$ with respect to $\delta_M$ and aggregating
 the consumption stream along the transition path yields a closed-form welfare gain, expressed
 in consumption-equivalent units:
-% Fixed: Updated tag numbering to (25).
 \begin{equation}
 \Omega(\Delta)
 =\frac{\beta(1-\beta)\,\Delta}{\bigl(1-\beta+\beta\,\delta_M\bigr)(1-\phi)}\,
@@ -964,7 +944,6 @@ the PE passive-decay benchmark with survival rate $1-\delta_M\approx 0.905$, whi
 permanent change in $\delta_M$ on the user cost of AI capacity; the denominator $(1-\phi)$
 reflects the curvature of the capacity constraint $D_t=\psi M_t^{\phi}$.}
 
-% Fixed: Replaced \simeq with \approx.
 For the baseline calibration (implying quarterly $\beta\approx0.9975$ and
 $\delta_M\approx0.0953$, with $\phi=0.7$), the coefficient in front of
 $M^*/C^*$ in~\eqref{eq:Welfare} is approximately $0.086$. Given the baseline
@@ -981,13 +960,11 @@ the first few years: under the PE passive-decay yardstick the bulk of the adjust
 \begin{figure}[t]
 	\centering
 	\caption{\textbf{Steady-state effects of a hardware tax (or subsidy)}}
-% Fixed: Removed leading non-standard whitespace. Removed .png extension.
     \vspace{0.35cm}
 	\includegraphics[width=\textwidth]{fig4}
 	\label{fig4}
 
 	{\footnotesize
-% Fixed: Replaced \star with *.
 	\textit{Notes:} Panel (a) plots the ratio $M^*(\tau)/M^*_{0}$ as the effective
 	hardware tax $\tau$ (in percentage points on the quarterly $\delta_M$) varies. A two-percentage-point tax
 	($\tau=0.02$) reduces the AI-capacity stock by approximately twenty per cent. Panel (b) converts
@@ -1063,7 +1040,6 @@ two-asset system, and the associated GE and PE dynamics, are therefore unchanged
 
 Let labour consist of routine and non-routine types, $L^{\mathrm R}_t$ and $L^{\mathrm N}_t$, aggregated
 with elasticity $\nu>1$:
-% Fixed: Removed leading non-standard whitespaces in the equation.
 \[
 Y_t
 = A K_t^{\alpha} M_t^{\zeta}
@@ -1074,7 +1050,6 @@ Y_t
 AI capacity is assumed to substitute more strongly for routine tasks; the parameter
 $\xi>0$ scales that substitutability. Because each labour type supplies perfect substitutes
 within its own class, the wage ratio is pinned down in closed form:
-% Fixed: Removed leading non-standard whitespaces in the equation.
 \[
 \frac{w^{\mathrm N}_t}{w^{\mathrm R}_t}
         =(\xi M_t)^{\frac{\nu-1}{\nu}}.
@@ -1088,11 +1063,9 @@ the rise in the EU Structure of Earnings Survey between 2018 and 2022 for tasks 
 \vspace{0.55cm}
 % Note: The [H] specifier requires the 'float' package, which was included in the preamble.
 \begin{figure}[H]
-% Fixed: Removed leading non-standard whitespaces.
     \centering
     \caption{\textbf{Wage premium after hardware-longevity shock}}
     \vspace{0.3cm}
-% Fixed: Removed .png extension.
     \includegraphics[width=0.6\textwidth]{fig5}
     \label{fig5}
    
@@ -1117,7 +1090,6 @@ Embedding the consumption-side CES aggregator in a Dixit–Stiglitz price-settin
 preserves the log-linearity of the Euler block. Suppose a continuum of differentiated firms
 sets prices à la Calvo, with probability $1-\rho$ of resetting in any given period. Linearising
 the New Keynesian Phillips curve around the AI-augmented steady state yields
-% Fixed: Updated tag numbering to (26) to follow sequentially from Section 6. Removed leading whitespaces.
 \begin{equation}
 \pi_{t}
   =\beta\,\mathbb E_t\pi_{t+1}
@@ -1704,7 +1676,7 @@ with eigenvalues
 \end{equation}
 The near-zero stable root implies a very rapid adjustment mode that operates through endogenous
 investment choices for the next-period stocks, while the second root governs the slower component of the
-local convergence. For comparison, the depreciation-based PE survival rates are $1-\delta_M\approx 0.905$ and $1-\delta\approx 0.985$. The GE eigenvalues differ markedly from these PE benchmarks because the corrected linearisation keeps investment endogenous in the feasibility constraint, allowing the planner to re-optimise gross investment rather than holding it at replacement. Figures~1--3 display the resulting GE paths alongside the PE benchmarks.
+local convergence. For comparison, the depreciation-based PE survival rates are $1-\delta_M\approx 0.905$ and $1-\delta\approx 0.985$. The GE eigenvalues differ markedly from these PE benchmarks because the linearisation keeps investment endogenous in the feasibility constraint, allowing the planner to re-optimise gross investment rather than holding it at replacement. Figures~1--3 display the resulting GE paths alongside the PE benchmarks.
 
 
 
