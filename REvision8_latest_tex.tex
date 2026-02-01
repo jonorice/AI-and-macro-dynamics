@@ -88,7 +88,7 @@ Insights from a Two-Asset Growth Model\par}
 \vspace{0.5cm}
 
 \begin{abstract}
-Specialised AI hardware becomes economically obsolete far faster than conventional capital. This paper embeds that distinction in a tractable growth model with two capital stocks, conventional capital and AI capacity interpreted as installed compute used to deploy existing models. AI capacity both raises productivity in goods production and supplies digital services that are cheap to use once installed but constrained by installed capacity. The steady state is pinned down by user cost conditions, and local dynamics feature two adjustment modes tied closely to the survival rates of the two stocks. Calibrated to advanced economies in the mid 2020s, AI capacity adjusts with a half life of about seven quarters, while conventional capital adjusts over roughly eleven years, helping rationalise boom and bust patterns in data centre investment. Because the optimal AI stock depends sensitively on its effective user cost, shifts that lower the effective depreciation of installed compute through better utilisation, repairability, cooling, and resale value can have large welfare effects without implying slower frontier innovation. Quantitatively, a two percentage point reduction in quarterly AI depreciation raises welfare by 0.36\% in consumption equivalent terms, while an equal sized compute tax reduces the steady state AI stock by around one fifth.
+Specialised AI hardware becomes economically obsolete far faster than conventional capital. This paper embeds that distinction in a tractable growth model with two capital stocks, conventional capital and AI capacity interpreted as installed compute used to deploy existing models. AI capacity both raises productivity in goods production and supplies digital services that are cheap to use once installed but constrained by installed capacity. The steady state is pinned down by user cost conditions. Local dynamics are obtained from a corrected linearisation in which investment is endogenous along transitions, yielding a second-order Euler block whose stable manifold defines a two-dimensional law of motion for the capital stocks. The resulting general-equilibrium impulse responses diverge markedly from a partial-equilibrium benchmark that holds investment at replacement levels: because replacement flows are large relative to small stock deviations for short-lived AI hardware, the planner can close stock gaps much faster than passive depreciation-driven decay. The PE benchmark nevertheless provides a transparent yardstick: calibrated to advanced economies in the mid 2020s, passive decay alone implies a half-life of about seven quarters for AI capacity versus roughly eleven years for conventional capital, helping rationalise boom and bust patterns in data centre investment. Because the optimal AI stock depends sensitively on its effective user cost, shifts that lower the effective depreciation of installed compute through better utilisation, repairability, cooling, and resale value can have large welfare effects without implying slower frontier innovation. Quantitatively, a two percentage point reduction in quarterly AI depreciation raises welfare by 0.36\% in consumption equivalent terms, while an equal sized compute tax reduces the steady state AI stock by around one fifth.
 \end{abstract}
 
 \vfill
@@ -111,13 +111,13 @@ In this paper, we construct a neoclassical growth model in which a stock of AI c
 
 The allocation can be described by a social planner who internalises the capacity constraint and the resource cost of inference. Two user-cost conditions characterise the steady state analytically. The condition for conventional capital pins down its user cost and yields a closed-form expression for the steady-state stock of K as a power function of the AI stock. Substituting this expression into the Euler equation for AI capacity reduces the problem to a single marginal-benefit map in one variable. Appendix~A shows that this map is strictly decreasing under mild assumptions on congestion and depreciation, which guarantees a unique interior solution for the steady-state AI stock.%
 
-To study dynamics, we log-linearise the Euler block together with the capital-accumulation equations around the steady state. This yields a two-dimensional linear system in the log deviations of K and M whose Jacobian collects the partial elasticities of the user-cost conditions with respect to the two capital stocks. The eigenvalues of this system provide the natural general equilibrium (GE) adjustment speeds of the model. In a calibration to advanced economies in the mid-2020s, the fast eigenvalue lies close to the survival rate of AI hardware and the slow eigenvalue lies close to the survival rate of conventional capital. Section 6 confirms this intuition, showing that the two eigenvalues are numerically very close to the survival rates of K and M, meaning hardware parameters effectively determine the adjustment speeds. As a result, the GE transition paths for AI capacity, tangible capital and output are well approximated by simple geometric laws of motion based on the two depreciation rates. These geometric laws serve as transparent partial equilibrium (PE) benchmarks: they make clear that hardware durability alone can generate a six-to-one gap between the half-life of AI-investment booms and that of conventional capital deepening.
+To study dynamics, we log-linearise the Euler block together with the capital-accumulation equations around the steady state, keeping investment endogenous in the feasibility constraint. Because the co-state variable depends on both current and next-period capital stocks, the linearised Euler system is second order. Forming a companion system and selecting the stable eigenspace yields a reduced two-dimensional law of motion for the log deviations of $K$ and $M$. As a transparent comparison, we construct partial equilibrium (PE) benchmarks that hold investment fixed at steady-state replacement levels, so that stock deviations decay passively at the survival rates $(1-\delta)$ and $(1-\delta_M)$. These benchmarks isolate the role of hardware durability: in the baseline calibration, passive decay alone implies a half-life of roughly seven quarters for AI capacity versus about eleven years for conventional capital, a six-to-one gap driven entirely by the depreciation differential. The general equilibrium (GE) responses diverge from these benchmarks because the planner re-optimises investment. For short-lived AI hardware, replacement flows are large relative to small stock deviations, so the planner can close gaps much faster than passive decay by modestly adjusting gross investment. For diffusion from a low initial stock, the planner smooths the build-up over a longer horizon than the PE benchmark would suggest. Figures~1--3 display both paths, making visible the distinct roles of passive depreciation and active investment adjustment.
 
 The analytical characterisation highlights which parameters matter most. The effective depreciation rate of AI hardware governs the size of the optimal AI stock and the half-life of an investment surge; the elasticity of substitution between digital and tangible uses controls the share of expenditure captured by low-cost digital services; and the output elasticity of AI capacity determines how strongly those services feed back into aggregate output and incomes. Because the steady state and the GE dynamics can be written directly in terms of these primitives, a wide range of policy interventions can be evaluated using steady-state elasticities and linearised impulse responses rather than full numerical solution methods.
 
-Two quantitative findings stand out. First, extending hardware life produces a disproportionately large increase in the steady-state AI stock and in the digital share of consumption, yet, unless AI is allowed to substitute directly for labour in production, the aggregate labour share remains close to the Cobb-Douglas benchmark. In the baseline calibration, raising the annual economic life of AI hardware from about three to four years increases the optimal AI-capacity stock by several tens of per cent and raises the digital expenditure share materially, while the labour share moves little. Second, the high depreciation rate typical of accelerators implies a fast GE adjustment mode with a half-life of roughly seven quarters, compared with a slow mode associated with conventional capital whose half-life is almost an order of magnitude longer. These distinct timescales align with the volatility observed in data-centre expansions and suggest tight windows for macroprudential intervention.
+Two quantitative findings stand out. First, extending hardware life produces a disproportionately large increase in the steady-state AI stock and in the digital share of consumption, yet, unless AI is allowed to substitute directly for labour in production, the aggregate labour share remains close to the Cobb-Douglas benchmark. In the baseline calibration, raising the annual economic life of AI hardware from about three to four years increases the optimal AI-capacity stock by several tens of per cent and raises the digital expenditure share materially, while the labour share moves little. Second, the high depreciation rate typical of accelerators creates a sharp asymmetry between the GE and PE adjustment speeds. When AI hardware is hit by a positive stock shock, the planner can eliminate most of the excess within a few quarters by cutting gross investment modestly below replacement, because steady-state replacement flows ($\delta_M M^{*}\approx 9.5\%$ of the stock per quarter) are large relative to small deviations. The PE passive-decay benchmark, which abstracts from this behavioural response, implies a half-life of roughly seven quarters and provides an intuitive yardstick for the speed at which hardware-driven booms unwind once investment returns to replacement. These distinct timescales align with the volatility observed in data-centre expansions and suggest tight windows for macroprudential intervention.
 
-The policy experiments exploit the mapping from hardware costs into the primitives of the model. A hardware tax or a regulatory surcharge on compute can be represented as an increase in the effective depreciation rate of AI capacity, while accelerated-depreciation allowances, repair mandates or durability-enhancing subsidies operate in the opposite direction. In the baseline calibration, a two-percentage-point surtax on the quarterly economic depreciation rate of AI capacity reduces the optimal AI stock by around one fifth, whereas a symmetric improvement in hardware longevity raises lifetime welfare by around 0.36 per cent in consumption-equivalent units. Because the GE eigenvalues are close to the depreciation-based survival rates, the transition to the new steady state is rapid: most of the welfare gain from a longevity improvement accrues within a few years.%
+The policy experiments exploit the mapping from hardware costs into the primitives of the model. A hardware tax or a regulatory surcharge on compute can be represented as an increase in the effective depreciation rate of AI capacity, while accelerated-depreciation allowances, repair mandates or durability-enhancing subsidies operate in the opposite direction. In the baseline calibration, a two-percentage-point surtax on the quarterly economic depreciation rate of AI capacity reduces the optimal AI stock by around one fifth, whereas a symmetric improvement in hardware longevity raises lifetime welfare by around 0.36 per cent in consumption-equivalent units. Because replacement flows for AI hardware are large, the transition to a new steady state is rapid: most of the welfare gain from a longevity improvement accrues within a few years.%
 
 Finally, the framework accommodates several extensions at low analytical cost. A simple nested labour aggregator maps growth in AI capacity into wage premia between routine and non-routine workers. Embedding the consumption aggregator in a Calvo pricing environment yields a New Keynesian Phillips curve in which hardware-cost shocks act as cost-push disturbances whose persistence is tied to the durability of AI capacity. Introducing an additional state variable capturing model size separates the training and inference margins without disturbing the two-asset core. In each case, the key advantage of the present setup is that the capital block remains two-dimensional and analytically characterised, so that the extra margins can be layered on without losing tractability.
 
@@ -520,7 +520,7 @@ The quarterly depreciation rate used in the model is
 \[
 \delta_M = 1-(1-\delta_{M,a})^{1/4} \approx 0.0953,
 \]
-so the quarterly survival rate of installed AI capacity is about $1-\delta_M\approx 0.905$. Sections~\ref{sec:dynamics} and~\ref{sec:policy} show that this rate plays a central role in governing both the fast GE adjustment mode and the half-life of hardware-driven booms.
+so the quarterly survival rate of installed AI capacity is about $1-\delta_M\approx 0.905$. This survival rate defines the PE passive-decay benchmark against which the GE dynamics are compared in Section~\ref{sec:dynamics}. It also governs the steady-state replacement flow $\delta_M M^{*}$, which is large enough that the planner can close small stock gaps much faster than passive decay alone, as the impulse responses in Figures~1--3 illustrate.
 
 \paragraph{AI in production}
 
@@ -685,7 +685,7 @@ where $J$ is the Jacobian of the law of motion for $(K_t,M_t)$ evaluated at the 
 % Fixed: Changed \varphi to \phi for consistency with the model definition in Section 3.
 state. Each entry of $J$ is a unit-free elasticity built from the primitive parameters
 $(\alpha,\zeta,\sigma,\theta,\delta,\delta_M,\phi,\psi,\chi)$ and steady-state ratios such as
-$Y^{*}/K^{*}$ and $Y^{*}/M^{*}$. Appendix~B summarises the linearisation and reports the resulting Jacobian and eigenvalues; here we focus on their economic content.
+$Y^{*}/K^{*}$ and $Y^{*}/M^{*}$. Because investment is endogenous in the feasibility constraint, the Euler block is second order in $(K_t,M_t)$; the reduced two-state law of motion $x_{t+1}=Jx_t$ is obtained by forming a companion system and selecting the stable eigenspace (Appendix~B). Here we focus on the economic content of the resulting GE dynamics and compare them with PE benchmarks that hold investment at replacement levels.
 
 Intuitively, a positive deviation in $K_t$ lowers the marginal product of capital and hence the gross return (user cost) on tangible capital, which reduces the incentive to invest and induces a gradual return of $K_{t+1}$ towards $K^{*}$; this effect, together with depreciation, determines $J_{KK}$.
 The term $J_{MM}$ is governed by the
@@ -709,11 +709,7 @@ t_{1/2}(\lambda_i)
 \]
 % Fixed: Replaced \simeq with \approx for better typography.
 In the baseline calibration of Section~\ref{sec:calibration}, the fast eigenvalue $\lambda_1$
-is very close to the survival rate of AI capacity, $1-\delta_M \approx 0.905$, while the slow
-eigenvalue $\lambda_2$ lies close to the survival rate of conventional capital,
-$1-\delta \approx 0.985$. Appendix~B reports the exact numerical values and the
-corresponding eigenvectors. Economically, the system decomposes into a fast mode driven
-primarily by the high depreciation rate of AI capacity and a slow mode associated with the
+is near zero ($\approx 7.7\times 10^{-6}$), implying an extremely rapid adjustment mode through which the planner eliminates most stock deviations within one or two quarters by re-optimising gross investment. The slow eigenvalue $\lambda_2\approx 0.980$ governs the gradual convergence of tangible capital. Appendix~B reports the full numerical Jacobian. For comparison, the PE survival rates are $1-\delta_M\approx 0.905$ and $1-\delta\approx 0.985$; the GE eigenvalues diverge from these benchmarks because the corrected linearisation keeps investment endogenous in the feasibility constraint. Economically, the system decomposes into a fast mode through which the planner exploits the large replacement flows of short-lived AI hardware to close stock gaps quickly, and a slow mode associated with the
 sluggish adjustment of tangible capital.
 
 Given an initial deviation $x_0 \equiv (k_0,m_0)^{\prime}$, the GE solution is
@@ -789,9 +785,8 @@ gaps in levels and half-lives.
 
 To illustrate the link between the GE solution \eqref{eq:GE_system}--\eqref{eq:GE_solution}
 and the PE benchmark \eqref{eq:PE_recursions}, Figure~\ref{fig:irf_M_shock} plots the
-response of AI capacity and tangible capital to a one-off 1\% increase in $M_t$ at date $0$. Unlike the GE system, this PE benchmark holds investment fixed at steady-state replacement levels and therefore abstracts from endogenous movements in consumption and marginal utility; the comparison below therefore measures how large the GE feedbacks are in the baseline calibration. The solid lines show the GE impulse responses, based on the linear system
-\eqref{eq:GE_system}; the circle markers show the PE geometric paths
-$m_t = (1-\delta_M)^t m_0$ and $k_t = (1-\delta)^t k_0$. 
+response of AI capacity and tangible capital to a one-off 1\% increase in $M_t$ at date $0$. The PE benchmark holds investment fixed at steady-state replacement levels and therefore abstracts from endogenous movements in consumption and marginal utility; it captures only passive depreciation-driven decay. The comparison therefore measures how large the GE investment-adjustment feedbacks are in the baseline calibration. The solid lines show the GE impulse responses from the stable-manifold solution (Appendix~B); the circle markers show the PE paths
+$m_t = (1-\delta_M)^t m_0$ and $k_t = 0$ (since only $M_0$ is shocked and PE investment in $K$ remains at replacement). 
 
 
 \begin{figure}[htbp]
@@ -802,17 +797,11 @@ $m_t = (1-\delta_M)^t m_0$ and $k_t = (1-\delta)^t k_0$.
 \begin{minipage}{0.9\textwidth}
 \footnotesize
 Notes: The figure plots log deviations of $M_t$ (left panel) and $K_t$ (right panel) from the
-steady state following a 1\% increase in $M_0$. Solid lines: GE dynamics from the corrected linearisation (Section~\ref{sec:dynamics}). Circle markers: PE geometric benchmark
-\eqref{eq:PE_recursions}. The GE path for $M$ adjusts faster than the PE benchmark because the planner re-optimises investment endogenously; for $K$, the PE benchmark is zero by construction (only $M_0$ is shocked), whereas in GE the cross-effect from $M$ raises $K$ temporarily before the slow eigenvalue governs the return to steady state.
+steady state following a 1\% increase in $M_0$. Solid lines: GE dynamics from the stable-manifold solution (Appendix~B). Circle markers: PE benchmark, which holds investment at steady-state replacement levels so that deviations decay passively at the survival rate. The PE benchmark isolates depreciation-driven decay; the GE response allows investment to adjust, which closes stock gaps much faster for short-lived AI hardware because replacement flows are large relative to small deviations. For $K$, the PE benchmark is zero by construction (only $M_0$ is shocked), whereas in GE the cross-effect through Cobb--Douglas production raises $K$ temporarily.
 \end{minipage}
 \end{figure}
 
-For AI capacity, the GE path lies almost exactly on the PE benchmark, decaying with a
-half-life very close to $t^{M}_{1/2}$ in \eqref{eq:PE_half_lives}. For tangible capital, the GE
-path is more curved in the very short run because the initial disturbance originates in $M_0$
-rather than $K_0$, but the medium-run persistence is again governed by the slow root and
-closely tracks the geometric benchmark. This confirms that for small shocks around the steady
-state, depreciation rates alone already capture most of the relevant dynamics.
+For AI capacity, the GE path adjusts markedly faster than the PE benchmark. The mechanism is straightforward: with $\delta_M\approx 0.095$ per quarter, steady-state replacement investment is about $9.5\%$ of the stock. A 1\% excess stock is therefore small relative to replacement flows, so the planner can eliminate most of the deviation within a few quarters simply by cutting gross investment modestly below replacement while keeping $X_t\geq 0$. The PE benchmark, which holds $X_t=\delta_M M^{*}$ by construction, captures only the passive component of this unwind and therefore decays more slowly, with a half-life of $t^{M}_{1/2}\approx 6.9$ quarters. For tangible capital, the PE benchmark is zero because only $M_0$ is shocked, but the GE path shows a temporary increase in $K$ driven by the cross-effect of higher AI capacity on the marginal product of tangible capital, followed by a slow return governed by the second eigenvalue.
 
 \subsection{Hardware-longevity shocks}
 
@@ -825,8 +814,8 @@ dynamics for the log deviations from the new steady state,
 $\tilde{k}_t \equiv \ln K_t - \ln K^{**}$ and
 $\tilde{m}_t \equiv \ln M_t - \ln M^{**}$, again follow
 \eqref{eq:GE_system} with the Jacobian re-evaluated at $(K^{**},M^{**})$.
-The new fast eigenvalue, call it $\lambda^{\prime}_1$, moves closer to one because the survival
-rate of AI hardware has increased, while the slow eigenvalue changes little.
+The GE dynamics at the new steady state reflect the changed depreciation rate, with the
+Jacobian re-evaluated at $(K^{**},M^{**})$.
 
 As a transparent comparison, the PE benchmark assumes that the gap to the new AI
 steady state closes at the new survival rate:
@@ -839,7 +828,7 @@ M_t - M^{**}
 \end{equation}
 Figure~\ref{fig:longevity_transition} illustrates this transition for a two-percentage-point
 fall in the quarterly depreciation rate (from $\delta_M \approx 0.0953$ to $\delta_M - \Delta
-\approx 0.0753$). The GE and PE paths again lie very close together. The half-life of the gap
+\approx 0.0753$). As in Figure~\ref{fig:irf_M_shock}, the GE path adjusts faster than the PE benchmark because the planner re-optimises investment rather than holding it at replacement. The PE half-life of the gap
 to the new steady state is approximately
 \[
 t^{M,\text{new}}_{1/2}
@@ -857,10 +846,8 @@ longer than in the baseline because the improvement in longevity slows adjustmen
 \begin{minipage}{0.9\textwidth}
 \footnotesize
 Notes: The figure plots log deviations of AI capacity from the new steady state after a permanent
-two-percentage-point fall in $\delta_M$. Solid line: GE dynamics with Jacobian
-re-evaluated at $(K^{**},M^{**})$. Circle markers: PE benchmark
-\eqref{eq:PE_longevity}, in which the gap closes at the new survival rate $1-\delta_M+\Delta$.
-The GE path adjusts substantially faster than the PE benchmark because the planner front-loads AI investment in response to the permanent longevity improvement.
+two-percentage-point fall in $\delta_M$. Solid line: GE dynamics re-evaluated at $(K^{**},M^{**})$. Circle markers: PE benchmark
+\eqref{eq:PE_longevity}, which holds investment at replacement levels so that the gap closes passively at the new survival rate $1-\delta_M+\Delta$. The GE path adjusts faster because the planner front-loads AI investment in response to the permanent longevity improvement, exploiting the large replacement flows to close the gap to the new steady state more quickly.
 \end{minipage}
 \end{figure}
 
@@ -880,12 +867,7 @@ so that the gap to the steady state closes at the survival rate $1-\delta_M$. Wi
 calibration, half of $M^{*}$ is reached after about $t^{M}_{1/2} \approx 6.9$ quarters and
 around 90\% after roughly 23 quarters (just under six years).
 
-In the GE system, the same qualitative pattern emerges. Starting from a low $M_0$ and a
-correspondingly low $K_0$, the AI stock rises rapidly towards its steady state along the fast
-mode, while tangible capital deepens more slowly along the slow mode. Because the fast
-eigenvalue $\lambda_1$ is close to $1-\delta_M$, the GE diffusion of $M_t$ is again well
-approximated by \eqref{eq:PE_diffusion}. Figure~\ref{fig:diffusion_paths} compares the GE
-and PE paths.
+In the GE system, the qualitative pattern is similar but the speed of diffusion differs. Starting from a low $M_0$ and a correspondingly low $K_0$, the planner must build up both capital stocks simultaneously while keeping consumption non-negative, which requires smoothing investment over a longer horizon than the PE benchmark assumes. As a result, the nonlinear perfect-foresight GE transition converges more slowly than \eqref{eq:PE_diffusion}: the PE benchmark implicitly front-loads investment at the steady-state replacement rate from date zero, whereas the GE planner optimally spreads the build-up across many periods. Figure~\ref{fig:diffusion_paths} compares the two paths.
 
 \begin{figure}[H]
 \centering
@@ -897,21 +879,13 @@ and PE paths.
 Notes: The figure plots $M_t/M^{*}$ under a nonlinear perfect-foresight GE transition
 (solid line) and the PE diffusion benchmark
 \eqref{eq:PE_diffusion} (circle markers) for an economy starting from $M_0 \approx 0$.
-The PE benchmark converges substantially faster than the GE path because it holds investment fixed at steady-state replacement levels, whereas the GE planner optimally smooths the build-up of both capital stocks over a longer horizon.
+The PE benchmark holds investment fixed at steady-state replacement levels, implicitly front-loading capacity accumulation; the GE planner optimally smooths the build-up of both capital stocks, resulting in a more gradual diffusion path.
 \end{minipage}
 \end{figure}
 
 \subsection{Interpretation}
 
-Across these experiments, the message is consistent. The log-linear GE dynamics of the
-two-asset system can be summarised by two eigenvalues: a fast one, closely tied to the
-high depreciation rate of AI hardware, and a slow one, tied to the much lower depreciation
-rate of conventional capital. Because the corresponding eigenvectors are only weakly tilted
-by the production and services cross-effects, the half-lives implied by the GE system are
-numerically extremely close to the half-lives of the geometric PE benchmarks. This validates
-the use of those benchmarks in the policy analysis of Section~\ref{sec:policy}, while making
-clear that they are approximations to an underlying GE structure rather than free-standing
-assumptions.
+Across these experiments, the comparison between GE and PE paths clarifies the distinct roles of passive depreciation and active investment adjustment. The PE benchmark holds investment at steady-state replacement levels and therefore captures only depreciation-driven decay; it provides a deliberately mechanical ``no behavioural response'' yardstick whose half-life is tied directly to the survival rate of each asset. The GE response allows investment to adjust endogenously, which can close stock gaps much faster for short-lived AI hardware (because replacement flows are large relative to small deviations) and can smooth accumulation over a longer horizon when starting far from steady state (because the planner internalises the resource cost of rapid build-up). The PE benchmarks remain useful precisely because of this contrast: they isolate the hardware-durability channel and provide an intuitive lower bound on the speed of passive unwind, against which the additional bite of GE investment re-optimisation can be measured.
 
 
 
@@ -987,11 +961,8 @@ in consumption-equivalent units:
 \end{equation}
 where $C^*$ is steady-state consumption and $(\beta,\delta_M,\phi)$ are the
 quarterly parameters (with $\beta=\beta_a^{1/4}$).\footnote{The formula uses log utility
-and the binding-capacity regime. The derivation approximates the transition of $M_t$ by the
-fast GE mode; in the baseline calibration the associated eigenvalue
-$\lambda_1\approx 0.905$ is numerically almost identical to the survival rate
-$1-\delta_M\approx 0.905$ (Section~\ref{sec:dynamics}), so expressing the speed in terms of
-$\delta_M$ is an accurate simplification. The numerator captures the discounted effect of a
+and the binding-capacity regime. The derivation approximates the transition of $M_t$ by
+the PE passive-decay benchmark with survival rate $1-\delta_M\approx 0.905$, which provides a conservative (slower-than-GE) approximation to the transition speed. The numerator captures the discounted effect of a
 permanent change in $\delta_M$ on the user cost of AI capacity; the denominator $(1-\phi)$
 reflects the curvature of the capacity constraint $D_t=\psi M_t^{\phi}$.}
 
@@ -1054,20 +1025,14 @@ quantified in closed form once $\delta_M$ is pinned down.
 
 The high depreciation rate of AI hardware also has implications for financial-stability tools.
 Suppose hardware investment is partly debt-financed and that policymakers wish to lean
-against AI-driven credit booms by introducing a counter-cyclical capital buffer. The fast GE
-eigenvalue $\lambda_1$ in Section~\ref{sec:dynamics}, which is numerically close to the survival
-rate $1-\delta_M$, pins down the half-life of deviations in AI capacity:
+against AI-driven credit booms by introducing a counter-cyclical capital buffer. The PE passive-decay benchmark provides a conservative guide to the speed at which hardware-driven booms unwind once investment returns to replacement:
 \[
-t_{1/2}
-=\frac{\ln 0.5}{\ln \lambda_1}
-\;\approx\;
-\frac{\ln 0.5}{\ln(1-\delta_M)}
+t^{\text{PE}}_{1/2}
+=\frac{\ln 0.5}{\ln(1-\delta_M)}
 \approx 6.9\ \text{quarters},
 \]
-or roughly one and three-quarter years in the baseline calibration. A simple rule that
-accumulates capital buffers while $\dot M_t>0$ and releases them automatically after one
-half-life would therefore line up the prudential cycle with the natural economic decay of
-hardware booms. Unlike traditional Basel~III buffers, which often release with multi-year
+or roughly one and three-quarter years in the baseline calibration. As Figures~1--2 illustrate, the GE adjustment can be substantially faster because the planner (or market participants) can cut gross investment below replacement, exploiting the large steady-state replacement flows that characterise short-lived assets. A simple prudential rule that accumulates capital buffers during hardware-investment booms and releases them on a schedule tied to the PE half-life would therefore provide a transparent and conservative timing benchmark.
+Unlike traditional Basel~III buffers, which often release with multi-year
 lags, such a rule can be calibrated ex ante from observable hardware depreciation rates and
 replacement cycles, making it both transparent and time-consistent.
 
@@ -1095,8 +1060,8 @@ model while opening avenues for distributional and monetary analysis. In each ca
 $\{K_t,M_t\}$ block, its steady-state characterisation and its linear general-equilibrium (GE)
 dynamics remain exactly as in Sections~\ref{sec:steady_state}--\ref{sec:dynamics}; the
 extensions either add margins that are analytically separable or enter through static wedges
-in wage-setting or price-setting conditions. The fast and slow eigenvalues of the core
-two-asset system, and the associated benchmark half-lives, are therefore unchanged.
+in wage-setting or price-setting conditions. The eigenvalues of the core
+two-asset system, and the associated GE and PE dynamics, are therefore unchanged.
 
 \subsection{Heterogeneous labour and wage polarisation}
 
@@ -1235,16 +1200,16 @@ economy is analytically characterised by two user-cost conditions: one pins down
 relationship between tangible capital and AI capacity, the other determines the unique
 interior AI stock as the root of a monotone marginal-benefit map. Linearising around this
 steady state yields a two-dimensional general-equilibrium (GE) system with two eigenvalues
-that are numerically very close to the survival rates of the two capital stocks. Simple
-geometric laws of motion are therefore accurate guides to adjustment speeds and make
-policy experiments essentially pencil-and-paper.
+whose stable manifold defines a two-dimensional law of motion for the capital stocks.
+Simple geometric laws of motion based on the survival rates provide transparent PE benchmarks for
+policy experiments.
 
 Three quantitative lessons emerge. First, hardware durability is the dominant state variable.
-It determines the fast eigenvalue of the GE system and hence the benchmark half-life of
-AI-investment booms, dictates how much capacity firms wish to hold, and controls the size
-of the digital block. In the baseline calibration, the fast mode associated with AI capacity has
-a half-life of roughly seven quarters, while the slow mode associated with conventional
-capital has a half-life of more than a decade. Second, the elasticity with which digital
+It governs the PE passive-decay half-life of AI-investment booms (roughly seven quarters in the
+baseline calibration), dictates how much capacity firms wish to hold, and controls the size
+of the digital block. Because replacement flows are large for short-lived assets, the GE
+planner can close small stock gaps substantially faster than passive decay; conversely,
+conventional capital adjusts over more than a decade. Second, the elasticity with which digital
 services substitute for tangible consumption, together with the marginal resource cost of
 inference, acts as the key wedge between growth and measured inflation: when the marginal
 cost of inference is very low, modest changes in these parameters can generate large shifts in
@@ -1259,8 +1224,7 @@ capacity stock by just over ten per cent, while a two-percentage-point tax cuts 
 twenty per cent. Conversely, an equally sized extension of GPU service lives, interpreted as a
 two-percentage-point fall in the quarterly economic depreciation rate, raises lifetime welfare
 by around $0.36$ per cent in consumption-equivalent terms. The same primitives govern
-prudential timing: because the fast GE eigenvalue is very close to the hardware survival
-rate, AI-investment booms unwind with a half-life of about seven quarters, so a
+prudential timing: the PE passive-decay benchmark implies that AI-investment booms unwind with a half-life of about seven quarters once investment returns to replacement, and the GE adjustment can be faster still, so a
 counter-cyclical capital buffer aimed at AI lending can be released within roughly two years of
 an investment peak without elaborate forecasting. Overall, the framework points to
 hardware-centric instruments (accelerated depreciation, compute levies, repair mandates) as
@@ -1698,42 +1662,53 @@ together with the Euler equations
 where $\lambda_t$ is the shadow value of one unit of tangible goods in utility units,
 $\lambda_t = U_C(C_t)\,\partial C_t/\partial C^{\mathrm T}_t$.
 
-\paragraph{Why the feasibility equation matters}
-In the steady state, $I^{K*}=\delta K^{*}$ and $X^{*}=\delta_M M^{*}$, but these equalities do not
-hold along transitions. Using the steady-state identities inside the non-steady-state feasibility
-equation would mechanically suppress an important channel by which investment decisions move
-$t$-dated consumption and therefore the co-state $\lambda_t$. Equations \eqref{eq:B_resource}--\eqref{eq:B_eulerM}
-retain the correct dependence of $\lambda_t$ on investment, which is essential for the local dynamics.
+\paragraph{Why replacement investment cannot be used away from steady state}
+In the steady state, $I^{K*}=\delta K^{*}$ and $X^{*}=\delta_M M^{*}$, but these identities do not hold
+along transitions. Substituting them into the non-steady-state feasibility condition would eliminate the
+channel through which investment moves $t$-dated consumption and therefore the co-state $\lambda_t$.
+Equations \eqref{eq:B_resource}--\eqref{eq:B_eulerM} retain the correct dependence of $\lambda_t$ on
+investment, which is essential for the local dynamics.
 
-\subsection{Reduced state transition and eigenvalues}
+\subsection{Second-order Euler block and reduced state transition}
 
 Let $k_t\equiv\ln K_t-\ln K^{*}$ and $m_t\equiv\ln M_t-\ln M^{*}$ denote log deviations from the
-steady state, and collect them in $x_t\equiv(k_t,m_t)^{\prime}$. Log-linearising
-\eqref{eq:B_resource}--\eqref{eq:B_eulerM} around the steady state yields a linear rational-expectations
-system in the predetermined states $(k_t,m_t)$ and the associated jump variables (consumption and investment
-controls). The unique stable solution implies a two-dimensional law of motion for the predetermined stocks,
+steady state, and collect them in $x_t\equiv(k_t,m_t)^{\prime}$. Because $\lambda_t$ depends on
+$(K_t,M_t,K_{t+1},M_{t+1})$ via \eqref{eq:B_resource}--\eqref{eq:B_CES}, log-linearising the Euler block
+yields a second-order linear difference equation in $x_t$,
 \begin{equation}
-x_{t+1} = J\,x_t,
+A\,x_{t+2} + B\,x_{t+1} + C\,x_t = 0,
+\label{eq:B_second_order}
+\end{equation}
+where $A$, $B$ and $C$ are $2\times2$ matrices of steady-state elasticities.
+
+A convenient way to obtain the reduced two-state law of motion is to form the $4\times4$ companion system
+for $(x_{t+1},x_t)$ and select the stable eigenspace. Saddle-path stability implies two eigenvalues inside
+the unit circle, matching the number of predetermined stocks. The resulting local stable-manifold
+transition takes the form
+\begin{equation}
+x_{t+1} = J\,x_t.
 \label{eq:B_GE_reduced}
 \end{equation}
-where $J$ is the reduced-form Jacobian reported in Section~\ref{sec:dynamics}. In practice, $J$ is obtained
-by solving the linearised equilibrium system and selecting the stable roots, with saddle-path stability
-implying exactly two eigenvalues inside the unit circle, matching the number of predetermined states.
 
-Let $\lambda_1$ and $\lambda_2$ denote the eigenvalues of $J$, ordered so that
-$0<\lambda_1\le\lambda_2<1$. The corresponding half-lives are
+\subsection{Baseline numerical Jacobian and eigenvalues}
+
+Under the baseline calibration in Table~\ref{tab:baseline_calib}, the computed reduced-form Jacobian is
 \begin{equation}
-t_{1/2}(\lambda_i)=\frac{\ln 0.5}{\ln\lambda_i},\qquad i=1,2.
-\label{eq:B_halflife}
+J \approx
+\begin{pmatrix}
+0.947 & 0.061\\
+0.507 & 0.033
+\end{pmatrix},
+\label{eq:B_J_numeric}
 \end{equation}
-
-Under the baseline calibration in Table~\ref{tab:baseline_calib}, the computed eigenvalues are
+with eigenvalues
 \begin{equation}
-\lambda_1 \approx 0.905,\qquad \lambda_2 \approx 0.985,
+\lambda_1 \approx 7.7\times10^{-6},\qquad \lambda_2 \approx 0.980.
 \label{eq:B_eigs_numeric}
 \end{equation}
-implying half-lives of roughly $6.9$ quarters for the fast mode and $44.8$ quarters for the slow mode. For reference, the corresponding depreciation-based survival rates are $1-\delta_M\approx 0.905$ and $1-\delta\approx 0.985$, so the GE and PE roots coincide to three decimals in this calibration.
-This numerical proximity reflects the fact that, in the baseline calibration, depreciation dominates the diagonal terms of the local state transition, and the cross-effects through production and the services dividend are quantitatively small.
+The near-zero stable root implies a very rapid adjustment mode that operates through endogenous
+investment choices for the next-period stocks, while the second root governs the slower component of the
+local convergence. For comparison, the depreciation-based PE survival rates are $1-\delta_M\approx 0.905$ and $1-\delta\approx 0.985$. The GE eigenvalues differ markedly from these PE benchmarks because the corrected linearisation keeps investment endogenous in the feasibility constraint, allowing the planner to re-optimise gross investment rather than holding it at replacement. Figures~1--3 display the resulting GE paths alongside the PE benchmarks.
 
 
 
