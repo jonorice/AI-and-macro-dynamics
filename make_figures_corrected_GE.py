@@ -21,11 +21,16 @@ Outputs (PNG) are written to the current directory by default.
 
 from __future__ import annotations
 
+import argparse
 import math
 from dataclasses import dataclass
-from typing import Dict, Tuple
+from pathlib import Path
+from typing import Dict, Iterable, Tuple
 
 import numpy as np
+
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from scipy.optimize import root_scalar, root
 
@@ -456,7 +461,16 @@ def solve_transition_terminal(
 # Figures
 # ----------------------------
 
-def fig1_irf_baseline(J: np.ndarray, p: Params, horizon: int = 40, fname: str = "fig1_corrected.png") -> None:
+MARKER_EVERY = 2  # place a PE marker every N quarters
+
+
+def fig1_irf_baseline(
+    J: np.ndarray,
+    p: Params,
+    horizon: int = 50,
+    outdir: Path = Path("."),
+    formats: Iterable[str] = ("pdf", "png"),
+) -> None:
     """
     Figure 1: one-off 1% level shock to M0, K0 unchanged.
     GE: local policy x_{t+1}=J x_t.
@@ -475,25 +489,43 @@ def fig1_irf_baseline(J: np.ndarray, p: Params, horizon: int = 40, fname: str = 
     m_pe = 100.0 * ((1.0 - p.delta_M) ** tgrid) * m0
     k_pe = np.zeros_like(tgrid, dtype=float)
 
-    fig, ax = plt.subplots(1, 2, figsize=(10, 4))
-    ax[0].plot(tgrid, m_ge, label="GE")
-    ax[0].plot(tgrid, m_pe, linestyle="--", label="PE")
-    ax[0].set_xlabel("Quarters")
-    ax[0].set_ylabel("Percent log deviation")
-    ax[0].set_title("AI compute stock (M)")
-    ax[0].grid(True, alpha=0.3)
-    ax[0].legend()
+    # PE half-life for M
+    half_M = float(np.log(0.5) / np.log(1.0 - p.delta_M))
 
-    ax[1].plot(tgrid, k_ge, label="GE")
-    ax[1].plot(tgrid, k_pe, linestyle="--", label="PE")
-    ax[1].set_xlabel("Quarters")
-    ax[1].set_ylabel("Percent log deviation")
-    ax[1].set_title("Tangible capital (K)")
-    ax[1].grid(True, alpha=0.3)
-    ax[1].legend()
+    fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.0))
+
+    # Panel (a) - AI capacity
+    ax = axes[0]
+    ax.plot(tgrid, m_ge, "-", linewidth=2.0, alpha=0.80, label="GE", zorder=2)
+    ax.plot(tgrid, m_pe, linestyle="none", marker="o", markersize=4.0,
+            markerfacecolor="none", markeredgecolor="black",
+            markeredgewidth=1.2, markevery=MARKER_EVERY,
+            label="PE", zorder=3)
+    ax.axhline(0.0, linestyle="--", linewidth=1.0, color="black")
+    ax.set_title("(a) AI capacity (M)")
+    ax.set_xlabel("Quarters")
+    ax.set_ylabel("Log deviation (%)")
+    ax.set_xlim(0, horizon)
+    ax.legend(frameon=False, loc="upper right")
+
+    # Panel (b) - Tangible capital
+    ax = axes[1]
+    ax.plot(tgrid, k_ge, "-", linewidth=2.0, alpha=0.80, label="GE", zorder=2)
+    ax.plot(tgrid, k_pe, linestyle="none", marker="o", markersize=4.0,
+            markerfacecolor="none", markeredgecolor="black",
+            markeredgewidth=1.2, markevery=MARKER_EVERY,
+            label="PE", zorder=3)
+    ax.axhline(0.0, linestyle="--", linewidth=1.0, color="black")
+    ax.set_title("(b) Physical capital (K)")
+    ax.set_xlabel("Quarters")
+    ax.set_ylabel("Log deviation (%)")
+    ax.set_xlim(0, horizon)
+    ax.legend(frameon=False, loc="upper right")
 
     fig.tight_layout()
-    fig.savefig(fname, dpi=300)
+
+    for fmt in formats:
+        fig.savefig(outdir / f"fig1.{fmt}", dpi=300)
     plt.close(fig)
 
 
@@ -504,7 +536,8 @@ def fig2_longevity_shock(
     ss_old: Dict[str, float],
     deltaM_drop: float = 0.02,
     horizon: int = 40,
-    fname: str = "fig2_corrected.png",
+    outdir: Path = Path("."),
+    formats: Iterable[str] = ("pdf", "png"),
 ) -> Tuple[np.ndarray, Dict[str, float], Params]:
     """
     Figure 2: permanent fall in quarterly depreciation delta_M by deltaM_drop.
@@ -537,16 +570,25 @@ def fig2_longevity_shock(
     m_ge = 100.0 * x[:, 1]
     m_pe = 100.0 * ((1.0 - p_new.delta_M) ** tgrid) * x0[1]
 
-    fig, ax = plt.subplots(figsize=(6.5, 4))
-    ax.plot(tgrid, m_ge, label="GE")
-    ax.plot(tgrid, m_pe, marker="o", linestyle="None", markersize=3, label="PE")
+    fig, ax = plt.subplots(figsize=(7.5, 4.2))
+
+    ax.plot(tgrid, m_ge, "-", linewidth=2.0, alpha=0.80, label="GE", zorder=2)
+    ax.plot(tgrid, m_pe, linestyle="none", marker="o", markersize=4.0,
+            markerfacecolor="none", markeredgecolor="black",
+            markeredgewidth=1.2, markevery=MARKER_EVERY,
+            label="PE", zorder=3)
+    ax.axhline(0.0, linestyle="--", linewidth=1.0, color="black")
+
     ax.set_xlabel("Quarters")
-    ax.set_ylabel("Percent log deviation (from new SS)")
-    ax.set_title("Longevity shock, AI compute stock (M)")
-    ax.grid(True, alpha=0.3)
-    ax.legend()
+    ax.set_ylabel("AI capacity log deviation (% from new steady state)")
+    ax.set_title("Transition after a hardware-longevity improvement")
+    ax.set_xlim(0, horizon)
+
+    ax.legend(frameon=False, loc="lower right", bbox_to_anchor=(0.98, 0.20))
     fig.tight_layout()
-    fig.savefig(fname, dpi=300)
+
+    for fmt in formats:
+        fig.savefig(outdir / f"fig2.{fmt}", dpi=300)
     plt.close(fig)
 
     return J_new, ss_new, p_new
@@ -560,7 +602,8 @@ def fig3_diffusion(
     K0_share: float = 0.01,
     M0_share: float = 0.01,
     horizon: int = 160,
-    fname: str = "fig3_corrected.png",
+    outdir: Path = Path("."),
+    formats: Iterable[str] = ("pdf", "png"),
 ) -> None:
     """
     Figure 3: diffusion from a low initial capital state (K0_share, M0_share) of the SS.
@@ -584,17 +627,26 @@ def fig3_diffusion(
     M0 = M0_share * ss["M"]
     ratio_pe = 1.0 - ((1.0 - p.delta_M) ** tgrid) * (1.0 - (M0 / ss["M"]))
 
-    fig, ax = plt.subplots(figsize=(6.5, 4))
-    ax.plot(tgrid, ratio_ge, label="GE (nonlinear)")
-    ax.plot(tgrid, ratio_pe, linestyle="--", label="PE")
+    fig, ax = plt.subplots(figsize=(7.5, 4.2))
+
+    ax.plot(tgrid, ratio_ge, "-", linewidth=2.0, alpha=0.80, label="GE (nonlinear)", zorder=2)
+    ax.plot(tgrid, ratio_pe, linestyle="none", marker="o", markersize=4.0,
+            markerfacecolor="none", markeredgecolor="black",
+            markeredgewidth=1.2, markevery=max(1, horizon // 20),
+            label="PE", zorder=3)
+    ax.axhline(1.0, linestyle=":", linewidth=1.0, color="grey")
+
     ax.set_xlabel("Quarters")
-    ax.set_ylabel(r"$M_t / M^\ast$")
-    ax.set_title("Diffusion from a low initial compute stock")
+    ax.set_ylabel(r"$M_t / M^*$")
+    ax.set_title("AI-capacity take-off from a low initial stock")
+    ax.set_xlim(0, horizon)
     ax.set_ylim(0.0, 1.02)
-    ax.grid(True, alpha=0.3)
-    ax.legend()
+
+    ax.legend(frameon=False, loc="lower right")
     fig.tight_layout()
-    fig.savefig(fname, dpi=300)
+
+    for fmt in formats:
+        fig.savefig(outdir / f"fig3.{fmt}", dpi=300)
     plt.close(fig)
 
 
@@ -603,6 +655,15 @@ def fig3_diffusion(
 # ----------------------------
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--outdir", type=str, default=".", help="Directory to write fig1-fig3")
+    parser.add_argument("--formats", nargs="+", default=["pdf", "png"], choices=["pdf", "png"], help="Output formats")
+    parser.add_argument("--quiet", action="store_true", help="Suppress calibration printout")
+    args = parser.parse_args()
+
+    outdir = Path(args.outdir).expanduser().resolve()
+    outdir.mkdir(parents=True, exist_ok=True)
+
     # Baseline calibration (quarterly)
     beta_a = 0.99
     delta_a = 0.06
@@ -625,25 +686,24 @@ def main() -> None:
 
     eig_J = np.linalg.eigvals(J)
 
-    print("\nBaseline calibration")
-    print(f"  theta = {theta:.6f}, psi = {psi:.6f} (iters {iters})")
-    print(f"  K* = {ss['K']:.6f}, M* = {ss['M']:.6f}, p_D* = {ss['p_D']:.6f}")
-    print("\nCorrect GE policy matrix J (log deviations):")
-    print(J)
-    print("\nEigenvalues of J:")
-    print(eig_J)
+    if not args.quiet:
+        print("\nBaseline calibration")
+        print(f"  theta = {theta:.6f}, psi = {psi:.6f} (iters {iters})")
+        print(f"  K* = {ss['K']:.6f}, M* = {ss['M']:.6f}, p_D* = {ss['p_D']:.6f}")
+        print("\nCorrected GE policy matrix J (log deviations):")
+        print(J)
+        print("\nEigenvalues of J:")
+        print(eig_J)
 
     # Figures
-    fig1_irf_baseline(J, p, horizon=40, fname="fig1_corrected.png")
-    J_new, ss_new, p_new = fig2_longevity_shock(theta, psi, p, ss, deltaM_drop=0.02, horizon=40, fname="fig2_corrected.png")
+    fig1_irf_baseline(J, p, horizon=50, outdir=outdir, formats=args.formats)
+    J_new, ss_new, p_new = fig2_longevity_shock(theta, psi, p, ss, deltaM_drop=0.02, horizon=40, outdir=outdir, formats=args.formats)
+    fig3_diffusion(theta, psi, p, ss, K0_share=0.01, M0_share=0.01, horizon=160, outdir=outdir, formats=args.formats)
 
-    # Use the same initial shares as the earlier placeholder script, but now in a feasible nonlinear transition
-    fig3_diffusion(theta, psi, p, ss, K0_share=0.01, M0_share=0.01, horizon=160, fname="fig3_corrected.png")
-
-    print("\nSaved:")
-    print("  fig1_corrected.png")
-    print("  fig2_corrected.png")
-    print("  fig3_corrected.png")
+    if not args.quiet:
+        for fmt in args.formats:
+            for i in range(1, 4):
+                print(f"  {outdir / f'fig{i}.{fmt}'}")
 
 
 if __name__ == "__main__":
