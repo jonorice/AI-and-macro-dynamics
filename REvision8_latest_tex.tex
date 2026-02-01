@@ -363,6 +363,7 @@ system
 \tag{13}
 \end{equation}
 where $J$ is the Jacobian of the law of motion for $(K_t,M_t)$ evaluated at $(K^*,M^*)$.
+Because the marginal-utility co-state depends on investment through feasibility, the log-linearised Euler block is second order in $(k_t,m_t)$, and the two-dimensional law of motion $x_{t+1}=Jx_t$ is obtained by forming the companion system and selecting the stable manifold (Appendix~B).
 Each entry of $J$ is a unit-free elasticity built from
 $(\alpha,\zeta,\sigma,\theta,\delta,\delta_M,\phi,\psi,\chi)$ and steady-state ratios. The
 coefficients are regime-dependent:
@@ -975,9 +976,7 @@ A two-percentage-point improvement in hardware longevity on the quarterly rate
 ($\Delta=0.02$) therefore raises lifetime utility by roughly $0.36$\,per cent in
 consumption-equivalent terms (see panel~(b) of Figure~\ref{fig4}). Because the transition in
 $M_t$ is governed by the fast adjustment mode, a substantial fraction of this gain accrues in
-the first few years: the bulk of the adjustment in AI capacity is complete within roughly two
-half-lives (about three to four years), after which the economy is close to its new steady
-state.
+the first few years: under the PE passive-decay yardstick the bulk of the adjustment in AI capacity is complete within roughly two half-lives (about three to four years), and the GE system can be materially faster, after which the economy is close to its new steady state.
 
 \begin{figure}[t]
 	\centering
@@ -1700,7 +1699,7 @@ J \approx
 \end{equation}
 with eigenvalues
 \begin{equation}
-\lambda_1 \approx 7.4\times10^{-6},\qquad \lambda_2 \approx 0.980.
+\lambda_1 \approx 7.4 \times 10^{-6},\qquad \lambda_2 \approx 0.980.
 \label{eq:B_eigs_numeric}
 \end{equation}
 The near-zero stable root implies a very rapid adjustment mode that operates through endogenous
