@@ -296,7 +296,7 @@ def make_fig1(outdir: Path, formats: Iterable[str], p: Params) -> None:
     ax.axhline(0.5, linestyle=":", linewidth=1.0, color="grey")
     ax.axvline(half_M, linestyle=":", linewidth=1.0, color="grey")
     ax.text(half_M + 0.6, 0.52, f"Half-life = {half_M:.1f} q", fontsize=9)
-    ax.set_title("(a) AI capacity (M)")
+    ax.set_title("(a)")
     ax.set_xlabel("Quarters")
     ax.set_ylabel("Log deviation (%)")
     ax.set_xlim(0, T)
@@ -310,7 +310,7 @@ def make_fig1(outdir: Path, formats: Iterable[str], p: Params) -> None:
     ax.axhline(0.5, linestyle=":", linewidth=1.0, color="grey")
     ax.axvline(half_K, linestyle=":", linewidth=1.0, color="grey")
     ax.text(half_K + 0.6, 0.52, f"Half-life = {half_K:.1f} q", fontsize=9)
-    ax.set_title("(b) Physical capital (K)")
+    ax.set_title("(b)")
     ax.set_xlabel("Quarters")
     ax.set_xlim(0, T)
 
@@ -365,7 +365,7 @@ def make_fig2(
 
     ax.set_xlabel("Quarters")
     ax.set_ylabel("AI capacity log deviation (% from baseline)")
-    ax.set_title("Transition after a hardware-longevity improvement")
+    # title provided by LaTeX caption
     ax.set_xlim(0, T)
 
     ax.legend(frameon=False, loc="lower right", bbox_to_anchor=(0.98, 0.20))
@@ -396,7 +396,7 @@ def make_fig3(outdir: Path, formats: Iterable[str], p: Params) -> None:
 
     ax.set_xlabel("Quarters")
     ax.set_ylabel(r"$M_t / M^*$")
-    ax.set_title("AI-capacity take-off from a low initial stock")
+    # title provided by LaTeX caption
     ax.set_xlim(0, T)
     ax.set_ylim(0.0, 1.02)
 
@@ -454,7 +454,7 @@ def make_fig4(
     ax.axhline(1.0, linestyle=":", linewidth=1.0, color="grey")
     ax.set_xlabel(r"Hardware tax rate $\tau$ (pp on quarterly $\delta_M$)")
     ax.set_ylabel(r"$M^*(\tau) / M^*_0$")
-    ax.set_title("(a) Steady-state AI capacity")
+    ax.set_title("(a)")
     ax.set_xlim(float(tau_pp.min()), float(tau_pp.max()))
 
     ax = axes[1]
@@ -463,7 +463,7 @@ def make_fig4(
     ax.axhline(0.0, linestyle=":", linewidth=1.0, color="grey")
     ax.set_xlabel(r"Hardware tax rate $\tau$ (pp on quarterly $\delta_M$)")
     ax.set_ylabel("Welfare change (%, C-equivalent)")
-    ax.set_title("(b) Consumption-equivalent welfare")
+    ax.set_title("(b)")
     ax.set_xlim(float(tau_pp.min()), float(tau_pp.max()))
 
     fig.tight_layout()
@@ -501,7 +501,7 @@ def make_fig5(
 
     bars = ax.bar(labels, vals)
     ax.set_ylabel(r"$w^{N}/w^{R}$ (normalised)")
-    ax.set_title("Wage premium after hardware-longevity shock")
+    # title provided by LaTeX caption
     ax.set_ylim(0.90, 1.05)
 
     for bar in bars:

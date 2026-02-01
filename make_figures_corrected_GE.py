@@ -502,7 +502,7 @@ def fig1_irf_baseline(
             markeredgewidth=1.2, markevery=MARKER_EVERY,
             label="PE", zorder=3)
     ax.axhline(0.0, linestyle="--", linewidth=1.0, color="black")
-    ax.set_title("(a) AI capacity (M)")
+    ax.set_title("(a)")
     ax.set_xlabel("Quarters")
     ax.set_ylabel("Log deviation (%)")
     ax.set_xlim(0, horizon)
@@ -516,7 +516,7 @@ def fig1_irf_baseline(
             markeredgewidth=1.2, markevery=MARKER_EVERY,
             label="PE", zorder=3)
     ax.axhline(0.0, linestyle="--", linewidth=1.0, color="black")
-    ax.set_title("(b) Physical capital (K)")
+    ax.set_title("(b)")
     ax.set_xlabel("Quarters")
     ax.set_ylabel("Log deviation (%)")
     ax.set_xlim(0, horizon)
@@ -581,7 +581,7 @@ def fig2_longevity_shock(
 
     ax.set_xlabel("Quarters")
     ax.set_ylabel("AI capacity log deviation (% from new steady state)")
-    ax.set_title("Transition after a hardware-longevity improvement")
+
     ax.set_xlim(0, horizon)
 
     ax.legend(frameon=False, loc="lower right", bbox_to_anchor=(0.98, 0.20))
@@ -638,7 +638,7 @@ def fig3_diffusion(
 
     ax.set_xlabel("Quarters")
     ax.set_ylabel(r"$M_t / M^*$")
-    ax.set_title("AI-capacity take-off from a low initial stock")
+
     ax.set_xlim(0, horizon)
     ax.set_ylim(0.0, 1.02)
 
