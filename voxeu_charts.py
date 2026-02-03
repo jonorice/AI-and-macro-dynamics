@@ -61,12 +61,20 @@ HEADERS = {
     "Accept": "application/json",
 }
 
-START_YEAR = 2018
+START_YEAR = 2015
 
-# Quarterly depreciation rates
-DELTA_HIGH = 0.095    # ~33% annual
-DELTA_MED  = 0.06     # ~22% annual
-DELTA_LOW  = 0.03     # ~11% annual
+# Quarterly depreciation rates for compute hardware
+DELTA_COMPUTE_HIGH = 0.095    # ~33% annual (AI hardware)
+DELTA_COMPUTE_MED  = 0.06     # ~22% annual
+DELTA_COMPUTE_LOW  = 0.03     # ~11% annual
+
+# Depreciation for structures (buildings, land improvements)
+DELTA_STRUCTURES = 0.0125     # ~5% annual
+
+# Share of capex going to compute vs structures
+# Based on Alphabet CFO disclosure and TrendForce: ~60% servers, ~40% buildings/networking
+COMPUTE_SHARE = 0.60
+STRUCTURES_SHARE = 0.40
 
 # ============================================================
 # 1.  Pull capex from SEC EDGAR
@@ -308,6 +316,60 @@ def perpetual_inventory(capex_total: pd.Series, delta: float) -> pd.DataFrame:
     }, index=capex_total.index)
 
 
+def two_asset_pim(capex_total: pd.Series, delta_compute: float,
+                  delta_structures: float = DELTA_STRUCTURES,
+                  compute_share: float = COMPUTE_SHARE) -> pd.DataFrame:
+    """
+    Two-asset Perpetual Inventory Method.
+
+    Splits capex into compute (high depreciation) and structures (low depreciation),
+    then aggregates replacement and net additions.
+
+    Based on industry estimates: ~60% of hyperscaler capex goes to servers/compute,
+    ~40% to buildings and infrastructure (Alphabet CFO disclosure, TrendForce).
+    """
+    capex = capex_total.values
+    n = len(capex)
+
+    # Split capex
+    capex_compute = capex * compute_share
+    capex_structures = capex * (1 - compute_share)
+
+    # Compute asset stocks
+    stock_compute = np.zeros(n)
+    stock_structures = np.zeros(n)
+    repl_compute = np.zeros(n)
+    repl_structures = np.zeros(n)
+
+    # Initialize at steady state
+    stock_compute[0] = capex_compute[0] / delta_compute
+    stock_structures[0] = capex_structures[0] / delta_structures
+    repl_compute[0] = delta_compute * stock_compute[0]
+    repl_structures[0] = delta_structures * stock_structures[0]
+
+    for t in range(1, n):
+        repl_compute[t] = delta_compute * stock_compute[t - 1]
+        repl_structures[t] = delta_structures * stock_structures[t - 1]
+        stock_compute[t] = (1 - delta_compute) * stock_compute[t - 1] + capex_compute[t]
+        stock_structures[t] = (1 - delta_structures) * stock_structures[t - 1] + capex_structures[t]
+
+    # Aggregate
+    total_replacement = repl_compute + repl_structures
+    total_stock = stock_compute + stock_structures
+    net_add = capex - total_replacement
+
+    return pd.DataFrame({
+        "capex": capex,
+        "stock": total_stock,
+        "stock_compute": stock_compute,
+        "stock_structures": stock_structures,
+        "replacement": total_replacement,
+        "replacement_compute": repl_compute,
+        "replacement_structures": repl_structures,
+        "net_additions": net_add,
+    }, index=capex_total.index)
+
+
 # ============================================================
 # 3.  Charts
 # ============================================================
@@ -383,25 +445,37 @@ def fig2_replacement_vs_net(
     pim_low: pd.DataFrame,
 ):
     """
-    Chart B: Stacked area -- replacement vs net additions (high-delta),
-    with secondary y-axis showing implied stock under all three scenarios.
+    Chart B: Stacked area -- replacement vs net additions using two-asset PIM.
+
+    Uses industry breakdown: ~60% compute (high depreciation), ~40% structures (low).
+    Shows replacement from both asset types and net additions to total stock.
     """
     fig, ax1 = plt.subplots(figsize=(8.5, 4.5))
 
     dates = pim_high.index.to_timestamp()
 
-    # Stacked area: replacement (bottom) + net additions (top)
-    replacement = pim_high["replacement"].values
+    # Use the two-asset PIM (pim_high is now from two_asset_pim)
+    repl_compute = pim_high["replacement_compute"].values
+    repl_structures = pim_high["replacement_structures"].values
     net_add = pim_high["net_additions"].values
 
     # When net additions are negative, all spending is replacement
     net_add_pos = np.maximum(net_add, 0)
-    replacement_shown = pim_high["capex"].values - net_add_pos
+    total_replacement = pim_high["capex"].values - net_add_pos
 
-    ax1.fill_between(dates, 0, replacement_shown,
-                     color="#B0B0B0", alpha=0.8, label="Replacement investment")
-    ax1.fill_between(dates, replacement_shown, replacement_shown + net_add_pos,
-                     color="#2176AE", alpha=0.8, label="Net additions to stock")
+    # Scale replacement components to match total when net additions are negative
+    repl_total_raw = repl_compute + repl_structures
+    scale = np.where(repl_total_raw > 0, total_replacement / repl_total_raw, 1.0)
+    repl_compute_scaled = repl_compute * scale
+    repl_structures_scaled = repl_structures * scale
+
+    # Stacked: structures replacement (bottom), compute replacement (middle), net additions (top)
+    ax1.fill_between(dates, 0, repl_structures_scaled,
+                     color="#8B8B8B", alpha=0.7, label="Replacement: structures")
+    ax1.fill_between(dates, repl_structures_scaled, repl_structures_scaled + repl_compute_scaled,
+                     color="#B0B0B0", alpha=0.8, label="Replacement: compute")
+    ax1.fill_between(dates, total_replacement, total_replacement + net_add_pos,
+                     color="#2176AE", alpha=0.8, label="Net additions")
 
     ax1.set_ylabel("Quarterly investment (\\$bn)")
     ax1.set_ylim(0)
@@ -409,20 +483,20 @@ def fig2_replacement_vs_net(
     ax1.xaxis.set_major_locator(YearLocator())
     ax1.xaxis.set_major_formatter(DateFormatter("%Y"))
 
-    # Secondary y-axis: capital stock
+    # Secondary y-axis: compute capital stock under different depreciation scenarios
     ax2 = ax1.twinx()
     ax2.spines["top"].set_visible(False)
     ax2.spines["right"].set_visible(True)
     ax2.spines["right"].set_linewidth(0.8)
 
-    ax2.plot(dates, pim_high["stock"].values, "-", color="#D62828",
-             linewidth=1.8, label=f"Stock ($\\delta_q$=0.095)")
-    ax2.plot(dates, pim_med["stock"].values, "--", color="#F77F00",
-             linewidth=1.5, label=f"Stock ($\\delta_q$=0.06)")
-    ax2.plot(dates, pim_low["stock"].values, ":", color="#2D6A4F",
-             linewidth=1.5, label=f"Stock ($\\delta_q$=0.03)")
+    ax2.plot(dates, pim_high["stock_compute"].values, "-", color="#D62828",
+             linewidth=1.8, label=f"Compute stock (high $\\delta$)")
+    ax2.plot(dates, pim_med["stock_compute"].values, "--", color="#F77F00",
+             linewidth=1.5, label=f"Compute stock (med $\\delta$)")
+    ax2.plot(dates, pim_low["stock_compute"].values, ":", color="#2D6A4F",
+             linewidth=1.5, label=f"Compute stock (low $\\delta$)")
 
-    ax2.set_ylabel("Implied capital stock (\\$bn)")
+    ax2.set_ylabel("Compute capital stock (\\$bn)")
     ax2.set_ylim(0)
 
     # Combine legends
@@ -462,23 +536,25 @@ def print_summary(capex: pd.DataFrame, pim_high: pd.DataFrame,
         )
         print(f"  {yr}:  Total={row['Total']:6.1f}   ({firm_str})")
 
-    # Replacement fraction (high-delta)
-    print(f"\n--- Replacement fraction of spending (high delta=0.095) ---")
+    # Replacement fraction (two-asset model, high compute delta)
+    print(f"\n--- Replacement breakdown (two-asset model, compute delta=0.095) ---")
     pim = pim_high.copy()
     pim["quarter"] = pim.index
     pim["repl_frac"] = pim["replacement"] / pim["capex"]
     tail = pim.tail(8)
     for _, row in tail.iterrows():
         print(f"  {row['quarter']}:  capex={row['capex']:.1f}  "
-              f"repl={row['replacement']:.1f}  net={row['net_additions']:.1f}  "
-              f"repl_share={row['repl_frac']:.1%}")
+              f"repl={row['replacement']:.1f} (compute={row['replacement_compute']:.1f}, struct={row['replacement_structures']:.1f})  "
+              f"net={row['net_additions']:.1f}  repl_share={row['repl_frac']:.1%}")
 
     # Stock levels under each scenario (latest quarter)
     latest_q = pim_high.index[-1]
-    print(f"\n--- Implied capital stock at {latest_q} ($bn) ---")
-    print(f"  High delta (0.095): {pim_high['stock'].iloc[-1]:8.1f}")
-    print(f"  Med  delta (0.060): {pim_med['stock'].iloc[-1]:8.1f}")
-    print(f"  Low  delta (0.030): {pim_low['stock'].iloc[-1]:8.1f}")
+    print(f"\n--- Implied compute capital stock at {latest_q} ($bn) ---")
+    print(f"  High compute delta (0.095): {pim_high['stock_compute'].iloc[-1]:8.1f}")
+    print(f"  Med  compute delta (0.060): {pim_med['stock_compute'].iloc[-1]:8.1f}")
+    print(f"  Low  compute delta (0.030): {pim_low['stock_compute'].iloc[-1]:8.1f}")
+    print(f"\n--- Implied structures stock at {latest_q} ($bn) ---")
+    print(f"  (All scenarios, delta=0.0125): {pim_high['stock_structures'].iloc[-1]:8.1f}")
     print("=" * 65)
 
 
@@ -504,13 +580,16 @@ def main():
     # Drop any rows where total is 0 or NaN (shouldn't happen but safety)
     capex_total = capex_total[capex_total > 0]
 
-    # Step 2: Perpetual inventory
+    # Step 2: Two-asset Perpetual Inventory Method
+    # Split capex: ~60% compute (high depreciation), ~40% structures (low depreciation)
     print("\n" + "=" * 65)
-    print("STEP 2: Perpetual Inventory Method")
+    print("STEP 2: Two-Asset Perpetual Inventory Method")
+    print(f"  Compute share: {COMPUTE_SHARE:.0%}, Structures share: {STRUCTURES_SHARE:.0%}")
+    print(f"  Structures depreciation: {DELTA_STRUCTURES:.1%} quarterly (~{1-(1-DELTA_STRUCTURES)**4:.0%} annual)")
     print("=" * 65)
-    pim_high = perpetual_inventory(capex_total, DELTA_HIGH)
-    pim_med  = perpetual_inventory(capex_total, DELTA_MED)
-    pim_low  = perpetual_inventory(capex_total, DELTA_LOW)
+    pim_high = two_asset_pim(capex_total, DELTA_COMPUTE_HIGH)
+    pim_med  = two_asset_pim(capex_total, DELTA_COMPUTE_MED)
+    pim_low  = two_asset_pim(capex_total, DELTA_COMPUTE_LOW)
 
     # Step 3: Charts
     print("\n" + "=" * 65)
