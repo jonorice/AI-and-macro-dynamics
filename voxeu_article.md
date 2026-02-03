@@ -28,15 +28,25 @@ This pattern — volatile investment, smooth stock — is exactly what a growth 
 
 This has a direct parallel. Communications-equipment investment surged from $62 billion to $135 billion annually between 1996 and 2000, then collapsed. The episode is often cited as pure speculative excess. But telecom switching equipment also depreciated rapidly, and much of the late-1990s investment was replacing earlier-generation hardware. The AI cycle has the same structural feature, with shorter hardware lives and correspondingly larger replacement shares.
 
-## Why this matters for policy
+## Why hardware durability matters for the economy
 
-Three implications follow from recognising that AI investment is dominated by replacement spending.
+Rapid obsolescence is not just an accounting curiosity. It has first-order consequences for welfare and growth.
 
-**Measurement.** National statistical offices currently classify AI accelerators alongside general-purpose computing equipment, using accounting depreciation schedules of five to six years. If true economic depreciation is closer to three years, measured investment is more volatile than underlying capacity, and productivity attribution is distorted. Germany's 2021 reform, which set computer-hardware useful life to one year for tax purposes, is closer to the mark.
+**Welfare is sensitive to durability.** In the calibrated model (Rice 2026), extending AI hardware's economic life from three years to four raises steady-state welfare by 0.36 per cent in consumption-equivalent terms. The intuition: when hardware is short-lived, a large share of resources goes to maintaining the stock rather than expanding it. Anything that extends hardware life — better engineering, software efficiency, or reduced thermal stress — frees resources for consumption or additional capacity.
 
-**Financial stability.** Financial institutions have extended over $200 billion in data-centre-related debt. If the underlying hardware collateral depreciates at 33 per cent per year, it could enter negative equity within two to three years of financing. The Bank of England has already opened an inquiry into data-centre lending structures. The framework here suggests that lenders should distinguish clearly between the long-lived structure (the building) and the short-lived hardware inside it, because their depreciation profiles differ by an order of magnitude.
+**Investment-specific shocks propagate fast.** Shocks to the productivity of investment goods drive a substantial share of business-cycle fluctuations (Greenwood, Hercowitz, and Krusell 2000). When the capital stock turns over quickly, those shocks propagate faster. A breakthrough in chip fabrication has immediate effects on the optimal compute stock, and the economy reaches the new optimum within years, not a decade. The same logic works in reverse: export controls or supply disruptions bite quickly.
 
-**Fiscal policy.** When replacement flows are large, small changes in the effective user cost of compute — whether through depreciation allowances, energy levies, or regulatory surcharges — move the steady-state stock substantially, and transitions are fast. In the calibrated model, a two-percentage-point change in quarterly depreciation shifts the optimal AI stock by around a fifth and alters welfare by 0.36 per cent in consumption-equivalent terms. Compute taxation is high-leverage and fast-acting, which makes it a powerful but also a risky policy instrument.
+**Mismeasurement distorts productivity accounting.** If statistical agencies understate economic depreciation, they overstate effective capital growth and understate total factor productivity. Brynjolfsson, Rock, and Syverson (2017) argued that AI's productivity effects follow a J-curve. The depreciation mismatch adds a further wrinkle: even tangible hardware investment may be mismeasured if accounting lives diverge from economic lives.
+
+**Digital services expand while the labour share holds.** In the two-asset framework, AI capacity delivers low-marginal-cost digital services that grow to a substantial share of consumption, yet the aggregate labour share remains close to historical norms. The depreciation rate governs how large the AI stock can be and therefore how far digital services can expand — without the labour-share collapse that some automation narratives predict.
+
+## Policy implications
+
+**Measurement.** Statistical agencies classify AI accelerators with general-purpose equipment, using five-to-six-year depreciation schedules. If true economic depreciation is closer to three years, measured investment overstates capacity growth and distorts productivity attribution. Germany's 2021 reform, setting computer-hardware useful life to one year, is closer to the mark.
+
+**Financial stability.** Over $200 billion in data-centre debt has been extended. If hardware collateral depreciates at 33 per cent per year, it enters negative equity within two to three years. The Bank of England has opened an inquiry. Lenders should distinguish the long-lived building from the short-lived hardware inside.
+
+**Fiscal policy.** When replacement flows are large, small changes in the user cost of compute move the steady-state stock substantially and transitions are fast. A two-percentage-point depreciation wedge shifts the optimal AI stock by around a fifth. Compute taxation is high-leverage and fast-acting — a powerful but risky instrument.
 
 ## A better way to read the capex numbers
 
@@ -45,6 +55,10 @@ The next time a hyperscaler announces a surge — or a cut — in AI spending, a
 ---
 
 **References**
+
+Brynjolfsson, E., D. Rock and C. Syverson (2017), "[Artificial Intelligence and the Modern Productivity Paradox: A Clash of Expectations and Statistics](https://www.nber.org/papers/w24001)", NBER Working Paper 24001.
+
+Greenwood, J., Z. Hercowitz and P. Krusell (2000), "[The Role of Investment-Specific Technological Change in the Business Cycle](https://www.sciencedirect.com/science/article/abs/pii/S0014292199000088)", *European Economic Review* 44(1): 91–115.
 
 Rice, J. (2026), "The Macroeconomics of AI Capacity: Insights from a Two-Asset Growth Model", ESRB Working Paper.
 
