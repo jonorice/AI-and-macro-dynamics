@@ -1,0 +1,92 @@
+\begin{thebibliography}{}
+
+\bibitem[Acemoglu et~al., 2020]{AcemogluRestrepo2020Tax}
+Acemoglu, D., Manera, A., and Restrepo, P. (2020).
+\newblock Taxes, automation, and the future of labor.
+\newblock {\em Brookings Papers on Economic Activity}, Spring:1--58.
+
+\bibitem[Acemoglu and Restrepo, 2019]{AcemogluRestrepo2019}
+Acemoglu, D. and Restrepo, P. (2019).
+\newblock Automation and new tasks: How technology displaces and reinstates
+  labor.
+\newblock {\em Journal of Economic Perspectives}, 33(2):3--30.
+
+\bibitem[Acemoglu and Restrepo, 2020]{AcemogluRestrepo2020}
+Acemoglu, D. and Restrepo, P. (2020).
+\newblock Robots and jobs: Evidence from u.s. labor markets.
+\newblock {\em Journal of Political Economy}, 128(6):2188--2244.
+
+\bibitem[Aghion and Howitt, 1992]{AghionHowitt1992}
+Aghion, P. and Howitt, P. (1992).
+\newblock A model of growth through creative destruction.
+\newblock {\em Econometrica}, 60(2):323--351.
+
+\bibitem[Chiacchio et~al., 2018]{Chiacchio2018}
+Chiacchio, F., Petropoulos, G., and Pichler, D. (2018).
+\newblock The impact of industrial robots on eu employment and wages: A local
+  labour market approach.
+\newblock Working Paper 02/2018, Bruegel.
+
+\bibitem[Corrado et~al., 2009]{Corrado2009}
+Corrado, C., Hulten, C., and Sichel, D. (2009).
+\newblock Intangible capital and u.s. economic growth.
+\newblock {\em Review of Income and Wealth}, 55(3):661--685.
+
+\bibitem[{GPUutils}, 2024]{GPUutils2024}
+{GPUutils} (2024).
+\newblock H100 spot market pricing analysis: January--august 2024.
+\newblock Industry Report.
+\newblock Tracks spot rental rates for Nvidia H100 GPUs across major cloud
+  providers.
+
+\bibitem[Grossman and Helpman, 1991]{GrossmanHelpman1991}
+Grossman, G.~M. and Helpman, E. (1991).
+\newblock Quality ladders and product cycles.
+\newblock {\em Quarterly Journal of Economics}, 106(2):557--586.
+
+\bibitem[Haskel and Westlake, 2017]{HaskelWestlake2017}
+Haskel, J. and Westlake, S. (2017).
+\newblock {\em Capitalism without Capital: The Rise of the Intangible Economy}.
+\newblock Princeton University Press.
+
+\bibitem[Hobbhahn and Besiroglu, 2023]{Epoch2023}
+Hobbhahn, M. and Besiroglu, T. (2023).
+\newblock Trends in {GPU} price-performance.
+\newblock Epoch AI.
+\newblock Accessed: 2025-12-08.
+
+\bibitem[{International Federation of Robotics}, 2023]{IFR2023}
+{International Federation of Robotics} (2023).
+\newblock World robotics 2023: Industrial robots.
+\newblock Technical report, International Federation of Robotics, Frankfurt.
+\newblock Executive Summary, p.~6 reports a global robot density of 151 units
+  per 10\,000 manufacturing employees in 2022, up from 69 in 2015.
+
+\bibitem[Karabarbounis and Neiman, 2014]{KarabarbounisNeiman2014}
+Karabarbounis, L. and Neiman, B. (2014).
+\newblock The global decline of the labor share.
+\newblock {\em The Quarterly Journal of Economics}, 129(1):61--103.
+
+\bibitem[McGrattan and Prescott, 2010]{McGrattanPrescott2010}
+McGrattan, E.~R. and Prescott, E.~C. (2010).
+\newblock Technology capital and the us current account.
+\newblock {\em American Economic Review}, 100(4):1493--1522.
+
+\bibitem[Romer, 1990]{Romer1990}
+Romer, P.~M. (1990).
+\newblock Endogenous technological change.
+\newblock {\em Journal of Political Economy}, 98(5, Part 2):S71--S102.
+
+\bibitem[{Stanford Institute for Human-Centered AI},
+  2025]{StanfordAIIndex2025}
+{Stanford Institute for Human-Centered AI} (2025).
+\newblock Artificial intelligence index report 2025.
+\newblock Section 5.1, Figure 5.3 documents the 280‑fold drop in LLM
+  inference prices between Nov 2022 and Oct 2024.
+
+\bibitem[Zeira, 1998]{Zeira1998}
+Zeira, J. (1998).
+\newblock Workers, machines and economic growth.
+\newblock {\em The Quarterly Journal of Economics}, 113(4):1091--1117.
+
+\end{thebibliography}
